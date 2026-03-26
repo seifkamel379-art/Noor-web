@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: reviews
+    description: Reviews operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /reviews:
+    get:
+      operationId: getReviews
+      tags: [reviews]
+      summary: Get all reviews
+      responses:
+        "200":
+          description: List of reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Review"
+    post:
+      operationId: createReview
+      tags: [reviews]
+      summary: Submit a review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReview"
+      responses:
+        "201":
+          description: Review created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +66,35 @@ components:
           type: string
       required:
         - status
-
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        rating:
+          type: integer
+        comment:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - rating
+        - comment
+        - createdAt
+    CreateReview:
+      type: object
+      properties:
+        name:
+          type: string
+        rating:
+          type: integer
+        comment:
+          type: string
+      required:
+        - name
+        - rating
+        - comment

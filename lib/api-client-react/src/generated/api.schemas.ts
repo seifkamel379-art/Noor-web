@@ -8,3 +8,17 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface Review {
+  id: number;
+  name: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export interface CreateReview {
+  name: string;
+  rating: number;
+  comment: string;
+}

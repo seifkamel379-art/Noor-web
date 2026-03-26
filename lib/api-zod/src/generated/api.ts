@@ -14,3 +14,24 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * @summary Get all reviews
+ */
+export const GetReviewsResponseItem = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  rating: zod.number(),
+  comment: zod.string(),
+  createdAt: zod.string(),
+});
+export const GetReviewsResponse = zod.array(GetReviewsResponseItem);
+
+/**
+ * @summary Submit a review
+ */
+export const CreateReviewBody = zod.object({
+  name: zod.string(),
+  rating: zod.number(),
+  comment: zod.string(),
+});

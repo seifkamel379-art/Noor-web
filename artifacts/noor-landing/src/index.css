@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-gold: hsl(var(--gold));
+  --color-gold-foreground: hsl(var(--gold-foreground));
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+  --font-arabic: var(--app-font-arabic);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+
+  /* Light mode - warm cream/beige tones from the app screenshots */
+  --background: 40 30% 96%;
+  --foreground: 25 40% 15%;
+  --border: 35 25% 82%;
+  --card: 38 35% 92%;
+  --card-foreground: 25 40% 15%;
+  --card-border: 35 25% 78%;
+  --sidebar: 38 35% 90%;
+  --sidebar-foreground: 25 40% 15%;
+  --sidebar-border: 35 25% 78%;
+  --sidebar-primary: 36 60% 45%;
+  --sidebar-primary-foreground: 40 30% 96%;
+  --sidebar-accent: 38 30% 85%;
+  --sidebar-accent-foreground: 25 40% 15%;
+  --sidebar-ring: 36 60% 45%;
+  --popover: 40 30% 96%;
+  --popover-foreground: 25 40% 15%;
+  --popover-border: 35 25% 82%;
+  /* Matte gold - primary color */
+  --primary: 36 60% 45%;
+  --primary-foreground: 40 30% 96%;
+  --secondary: 38 30% 85%;
+  --secondary-foreground: 25 40% 15%;
+  --muted: 38 25% 88%;
+  --muted-foreground: 25 25% 45%;
+  --accent: 36 55% 50%;
+  --accent-foreground: 40 30% 96%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 35 25% 82%;
+  --ring: 36 60% 45%;
+  --gold: 36 65% 50%;
+  --gold-foreground: 40 30% 96%;
+
+  --chart-1: 36 60% 45%;
+  --chart-2: 25 40% 30%;
+  --chart-3: 38 35% 70%;
+  --chart-4: 36 55% 60%;
+  --chart-5: 25 35% 20%;
+
+  --app-font-sans: 'Inter', sans-serif;
+  --app-font-serif: Georgia, serif;
+  --app-font-mono: Menlo, monospace;
+  --app-font-arabic: 'Cairo', 'Amiri', sans-serif;
+  --radius: .5rem;
+  --shadow-sm: 0 1px 3px rgba(139, 90, 43, 0.12), 0 1px 2px rgba(139, 90, 43, 0.08);
+  --shadow-md: 0 4px 6px rgba(139, 90, 43, 0.1), 0 2px 4px rgba(139, 90, 43, 0.06);
+  --shadow-lg: 0 10px 15px rgba(139, 90, 43, 0.1), 0 4px 6px rgba(139, 90, 43, 0.05);
+  --shadow-xl: 0 20px 25px rgba(139, 90, 43, 0.12), 0 10px 10px rgba(139, 90, 43, 0.04);
+
+  --primary-border: hsl(var(--primary));
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border: hsl(var(--secondary));
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border: hsl(var(--muted));
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border: hsl(var(--accent));
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --destructive-border: hsl(var(--destructive));
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+}
+
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  /* Dark mode - deep warm brown/dark from the app dark screenshots */
+  --background: 25 25% 10%;
+  --foreground: 38 30% 90%;
+  --border: 25 20% 22%;
+  --card: 25 22% 14%;
+  --card-foreground: 38 30% 90%;
+  --card-border: 25 20% 22%;
+  --sidebar: 25 22% 12%;
+  --sidebar-foreground: 38 30% 90%;
+  --sidebar-border: 25 20% 22%;
+  --sidebar-primary: 36 60% 50%;
+  --sidebar-primary-foreground: 25 25% 10%;
+  --sidebar-accent: 25 20% 18%;
+  --sidebar-accent-foreground: 38 30% 90%;
+  --sidebar-ring: 36 60% 50%;
+  --popover: 25 22% 14%;
+  --popover-foreground: 38 30% 90%;
+  --popover-border: 25 20% 22%;
+  --primary: 36 65% 55%;
+  --primary-foreground: 25 25% 10%;
+  --secondary: 25 20% 18%;
+  --secondary-foreground: 38 30% 90%;
+  --muted: 25 18% 18%;
+  --muted-foreground: 35 20% 60%;
+  --accent: 36 65% 55%;
+  --accent-foreground: 25 25% 10%;
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 25 20% 22%;
+  --ring: 36 65% 55%;
+  --gold: 36 70% 60%;
+  --gold-foreground: 25 25% 10%;
+
+  --chart-1: 36 65% 55%;
+  --chart-2: 38 30% 70%;
+  --chart-3: 25 20% 40%;
+  --chart-4: 36 60% 65%;
+  --chart-5: 38 25% 80%;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.45);
+
+  --primary-border: hsl(var(--primary));
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border: hsl(var(--secondary));
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border: hsl(var(--muted));
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border: hsl(var(--accent));
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --destructive-border: hsl(var(--destructive));
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Cairo', 'Inter', sans-serif;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 3px;
+}
+
+/* Gold gradient text */
+.gold-text {
+  background: linear-gradient(135deg, hsl(36, 80%, 50%) 0%, hsl(43, 95%, 65%) 50%, hsl(36, 75%, 45%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Phone mockup shadow */
+.phone-shadow {
+  filter: drop-shadow(0 25px 50px rgba(139, 90, 43, 0.35));
+}
+
+/* Islamic pattern background subtle */
+.islamic-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, hsl(36, 60%, 45%, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, hsl(36, 60%, 45%, 0.04) 0%, transparent 50%);
+}
+
+/* Star rating */
+.star-active {
+  color: hsl(var(--gold));
+  fill: hsl(var(--gold));
+}
+.star-inactive {
+  color: hsl(var(--border));
+  fill: none;
+}
+
+/* Shimmer effect on buttons */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3s infinite;
+}
+@keyframes shimmer {
+  0% { left: -75%; }
+  100% { left: 150%; }
+}
+
+/* Section divider ornament */
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, hsl(var(--primary)), transparent);
+}

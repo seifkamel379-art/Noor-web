@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Noor App Landing Page"
+version = "1.0.0"
+id = "artifacts/noor-landing"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23378
+
+[services.development]
+run = "pnpm --filter @workspace/noor-landing run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/noor-landing", "run", "build" ]
+publicDir = "artifacts/noor-landing/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23378"
+BASE_PATH = "/"
