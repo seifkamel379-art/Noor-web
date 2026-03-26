@@ -28,24 +28,26 @@ async function submitReview(data: { name: string; rating: number; comment: strin
 }
 
 // Screenshot filenames in user-specified order
-// Dark mode: pages 01-12 | Light mode: pages 13-24
+// Dark mode: pages 01,02,03,24,04,05,11,06,07,08,09,10
+// Light mode: pages 13,12,14,15,16,17,18,19,20,21,22,23
 const DARK_SCREENS = [
   "/screenshots/page-01.jpg",  // الصورة الرئيسية
   "/screenshots/page-02.jpg",  // المتتبع اليومي
-  "/screenshots/page-03.jpg",  // القرآن الكريم / سورة الفاتحة
+  "/screenshots/page-03.jpg",  // القرآن الكريم
+  "/screenshots/page-24.jpg",  // سورة الفاتحة
   "/screenshots/page-04.jpg",  // الأذكار
   "/screenshots/page-05.jpg",  // السبحة
+  "/screenshots/page-11.jpg",  // صفحة المزيد
   "/screenshots/page-06.jpg",  // تحديد القبلة
   "/screenshots/page-07.jpg",  // الاذاعات
   "/screenshots/page-08.jpg",  // اسماء الله الحسنى
   "/screenshots/page-09.jpg",  // القراء
   "/screenshots/page-10.jpg",  // التدبر الذكي
-  "/screenshots/page-11.jpg",  // صفحة المزيد
-  "/screenshots/page-12.jpg",  // شاشة إضافية
 ];
 
 const LIGHT_SCREENS = [
   "/screenshots/page-13.jpg", // الصورة الرئيسية
+  "/screenshots/page-12.jpg", // المتتبع اليومي
   "/screenshots/page-14.jpg", // القرآن الكريم
   "/screenshots/page-15.jpg", // سورة الفاتحة
   "/screenshots/page-16.jpg", // الأذكار
@@ -56,7 +58,6 @@ const LIGHT_SCREENS = [
   "/screenshots/page-21.jpg", // اسماء الله الحسنى
   "/screenshots/page-22.jpg", // القراء
   "/screenshots/page-23.jpg", // التدبر الذكي
-  "/screenshots/page-24.jpg", // المتتبع اليومي
 ];
 
 const SCREEN_LABELS = [
@@ -138,7 +139,7 @@ function PhoneMockup({ dark }: { dark: boolean }) {
         setCurrentIndex(prev => (prev + 1) % screens.length);
         setVisible(true);
       }, 300);
-    }, 2000);
+    }, 5000);
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [dark, screens.length]);
 
@@ -151,7 +152,7 @@ function PhoneMockup({ dark }: { dark: boolean }) {
         setCurrentIndex(p => (p + 1) % screens.length);
         setVisible(true);
       }, 300);
-    }, 2000);
+    }, 5000);
   };
 
   const next = () => {
@@ -163,7 +164,7 @@ function PhoneMockup({ dark }: { dark: boolean }) {
         setCurrentIndex(p => (p + 1) % screens.length);
         setVisible(true);
       }, 300);
-    }, 2000);
+    }, 5000);
   };
 
   return (
