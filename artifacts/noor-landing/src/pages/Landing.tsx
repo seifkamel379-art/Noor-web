@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Review {
   id: number;
@@ -27,10 +27,57 @@ async function submitReview(data: { name: string; rating: number; comment: strin
   return res.json();
 }
 
+// Screenshot filenames in user-specified order
+// Dark mode: pages 01-12 | Light mode: pages 13-24
+const DARK_SCREENS = [
+  "/screenshots/page-01.jpg",  // الصورة الرئيسية
+  "/screenshots/page-02.jpg",  // المتتبع اليومي
+  "/screenshots/page-03.jpg",  // القرآن الكريم / سورة الفاتحة
+  "/screenshots/page-04.jpg",  // الأذكار
+  "/screenshots/page-05.jpg",  // السبحة
+  "/screenshots/page-06.jpg",  // تحديد القبلة
+  "/screenshots/page-07.jpg",  // الاذاعات
+  "/screenshots/page-08.jpg",  // اسماء الله الحسنى
+  "/screenshots/page-09.jpg",  // القراء
+  "/screenshots/page-10.jpg",  // التدبر الذكي
+  "/screenshots/page-11.jpg",  // صفحة المزيد
+  "/screenshots/page-12.jpg",  // شاشة إضافية
+];
+
+const LIGHT_SCREENS = [
+  "/screenshots/page-13.jpg", // الصورة الرئيسية
+  "/screenshots/page-14.jpg", // القرآن الكريم
+  "/screenshots/page-15.jpg", // سورة الفاتحة
+  "/screenshots/page-16.jpg", // الأذكار
+  "/screenshots/page-17.jpg", // السبحة
+  "/screenshots/page-18.jpg", // صفحة المزيد
+  "/screenshots/page-19.jpg", // تحديد القبلة
+  "/screenshots/page-20.jpg", // الاذاعات
+  "/screenshots/page-21.jpg", // اسماء الله الحسنى
+  "/screenshots/page-22.jpg", // القراء
+  "/screenshots/page-23.jpg", // التدبر الذكي
+  "/screenshots/page-24.jpg", // المتتبع اليومي
+];
+
+const SCREEN_LABELS = [
+  "الصورة الرئيسية",
+  "المتتبع اليومي",
+  "القرآن الكريم",
+  "سورة الفاتحة",
+  "الأذكار",
+  "السبحة",
+  "صفحة المزيد",
+  "تحديد القبلة",
+  "الإذاعات",
+  "أسماء الله الحسنى",
+  "القراء",
+  "التدبر الذكي",
+];
+
 function StarRating({ rating, onChange, interactive = false }: { rating: number; onChange?: (r: number) => void; interactive?: boolean }) {
   const [hovered, setHovered] = useState(0);
   return (
-    <div className="flex gap-1 dir-ltr" style={{ direction: "ltr" }}>
+    <div className="flex gap-1" style={{ direction: "ltr" }}>
       {[1, 2, 3, 4, 5].map((s) => (
         <button
           key={s}
@@ -60,6 +107,163 @@ function FeatureCard({ icon: Icon, title, description }: { icon: React.ElementTy
       </div>
       <h3 className="font-bold text-lg text-foreground mb-2">{title}</h3>
       <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function PhoneMockup({ dark }: { dark: boolean }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const screens = dark ? DARK_SCREENS : LIGHT_SCREENS;
+
+  const goTo = (idx: number) => {
+    setVisible(false);
+    setTimeout(() => {
+      setCurrentIndex(idx);
+      setVisible(true);
+    }, 300);
+  };
+
+  useEffect(() => {
+    // Reset on mode change
+    setCurrentIndex(0);
+    setVisible(true);
+  }, [dark]);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setCurrentIndex(prev => (prev + 1) % screens.length);
+        setVisible(true);
+      }, 300);
+    }, 2000);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [dark, screens.length]);
+
+  const prev = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    goTo((currentIndex - 1 + screens.length) % screens.length);
+    intervalRef.current = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setCurrentIndex(p => (p + 1) % screens.length);
+        setVisible(true);
+      }, 300);
+    }, 2000);
+  };
+
+  const next = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    goTo((currentIndex + 1) % screens.length);
+    intervalRef.current = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setCurrentIndex(p => (p + 1) % screens.length);
+        setVisible(true);
+      }, 300);
+    }, 2000);
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      {/* Phone + nav arrows */}
+      <div className="relative flex items-center gap-3">
+        {/* Prev arrow */}
+        <button
+          onClick={prev}
+          className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"
+          aria-label="الصورة السابقة"
+        >
+          <ChevronRight className="w-4 h-4 text-primary" />
+        </button>
+
+        {/* Phone frame */}
+        <div className="relative">
+          {/* Glow effect */}
+          <div className="absolute inset-0 rounded-[44px] bg-primary/20 blur-2xl scale-95 pointer-events-none" />
+          <div
+            className="relative w-[230px] h-[470px] rounded-[40px] overflow-hidden"
+            style={{
+              border: "7px solid",
+              borderColor: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.12)",
+              boxShadow: dark
+                ? "inset 0 0 0 1px rgba(255,255,255,0.05), 0 30px 60px rgba(0,0,0,0.5)"
+                : "inset 0 0 0 1px rgba(0,0,0,0.08), 0 30px 60px rgba(139,90,43,0.28)",
+            }}
+          >
+            {/* Status bar notch */}
+            <div
+              className="absolute top-0 left-0 right-0 z-20 flex justify-center pt-2"
+              style={{ background: dark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.3)" }}
+            >
+              <div className="w-16 h-3 rounded-full bg-black/20" />
+            </div>
+
+            {/* Screenshot */}
+            <img
+              key={`${dark ? "d" : "l"}-${currentIndex}`}
+              src={screens[currentIndex]}
+              alt={SCREEN_LABELS[currentIndex] || "شاشة التطبيق"}
+              className="w-full h-full object-cover object-top transition-opacity duration-300"
+              style={{ opacity: visible ? 1 : 0 }}
+            />
+
+            {/* Screen name overlay */}
+            <div
+              className="absolute bottom-0 left-0 right-0 z-10 py-2 px-3 flex items-center justify-center"
+              style={{
+                background: dark
+                  ? "linear-gradient(to top, rgba(0,0,0,0.8), transparent)"
+                  : "linear-gradient(to top, rgba(255,248,235,0.85), transparent)",
+              }}
+            >
+              <span className={`text-xs font-semibold ${dark ? "text-yellow-300" : "text-amber-700"}`}>
+                {SCREEN_LABELS[currentIndex % SCREEN_LABELS.length]}
+              </span>
+            </div>
+          </div>
+          {/* Home indicator */}
+          <div
+            className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-1 rounded-full"
+            style={{ backgroundColor: dark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)" }}
+          />
+        </div>
+
+        {/* Next arrow */}
+        <button
+          onClick={next}
+          className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"
+          aria-label="الصورة التالية"
+        >
+          <ChevronLeft className="w-4 h-4 text-primary" />
+        </button>
+      </div>
+
+      {/* Dots indicator */}
+      <div className="flex gap-1.5 flex-wrap justify-center max-w-[200px]">
+        {screens.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            className="transition-all rounded-full"
+            style={{
+              width: i === currentIndex ? "20px" : "6px",
+              height: "6px",
+              backgroundColor: i === currentIndex
+                ? "hsl(var(--primary))"
+                : "hsl(var(--border))",
+            }}
+            aria-label={`الصورة ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Screen counter */}
+      <p className="text-xs text-muted-foreground">
+        {currentIndex + 1} / {screens.length}
+      </p>
     </div>
   );
 }
@@ -164,28 +368,27 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-16 md:py-24 islamic-pattern">
-        {/* Decorative circles */}
+      <section className="relative overflow-hidden py-16 md:py-20 islamic-pattern">
         <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
             {/* Text content */}
-            <div className="flex-1 text-center lg:text-right">
-              {/* Logo - centered and prominent */}
-              <div className="flex justify-center lg:justify-right mb-8">
+            <div className="flex-1 text-center lg:text-right order-2 lg:order-1">
+              {/* Logo */}
+              <div className="flex justify-center lg:justify-start mb-8">
                 <div className="relative">
                   <div className="absolute inset-0 rounded-3xl bg-primary/20 blur-2xl scale-110" />
                   <img
                     src="/noor-logo.png"
                     alt="شعار نور"
-                    className="relative w-32 h-32 rounded-3xl object-cover shadow-xl"
+                    className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-xl"
                   />
                 </div>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 leading-tight" style={{ fontFamily: "'Cairo', sans-serif" }}>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-3 leading-tight" style={{ fontFamily: "'Cairo', sans-serif" }}>
                 <span className="gold-text">تطبيق نور</span>
               </h1>
               <h2 className="text-xl md:text-2xl font-bold text-foreground/80 mb-4">
@@ -225,35 +428,21 @@ export default function Landing() {
                 </div>
                 <div className="w-px bg-border" />
                 <div className="text-center">
-                  <div className="text-2xl font-black text-primary">{reviews.length || "0"}+</div>
+                  <div className="text-2xl font-black text-primary">{reviews.length}+</div>
                   <div className="text-xs text-muted-foreground">تقييم مستخدم</div>
                 </div>
               </div>
             </div>
 
-            {/* Phone Mockup */}
-            <div className="flex-shrink-0 flex justify-center">
-              <div className="phone-shadow relative">
-                {/* Phone frame */}
-                <div className="relative w-[260px] h-[530px] rounded-[44px] border-[7px] border-foreground/15 bg-card overflow-hidden shadow-2xl" style={{ boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.1), 0 30px 60px rgba(139,90,43,0.3)" }}>
-                  {/* Notch */}
-                  <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-4 rounded-full bg-foreground/10 z-10" />
-                  {/* Screenshot */}
-                  <img
-                    src="/app-screenshot.jpg"
-                    alt="واجهة تطبيق نور"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-                {/* Home button */}
-                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-20 h-1 rounded-full bg-foreground/20" />
-              </div>
+            {/* Phone Mockup with Slideshow */}
+            <div className="flex-shrink-0 flex justify-center order-1 lg:order-2">
+              <PhoneMockup dark={dark} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section Divider */}
+      {/* Divider */}
       <div className="flex items-center gap-4 max-w-6xl mx-auto px-4 py-2 ornament-divider">
         <div className="w-2 h-2 rounded-full bg-primary mx-auto" />
       </div>
@@ -270,7 +459,6 @@ export default function Landing() {
               مجموعة شاملة من الأدوات الإسلامية المصممة لتكون رفيقك اليومي في طريق الاستقامة
             </p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {features.map((f) => (
               <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} />
@@ -279,7 +467,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Section Divider */}
+      {/* Divider */}
       <div className="flex items-center gap-4 max-w-6xl mx-auto px-4 py-2 ornament-divider">
         <div className="w-2 h-2 rounded-full bg-primary mx-auto" />
       </div>
@@ -352,14 +540,14 @@ export default function Landing() {
                   required
                 />
               </div>
-
               <div>
                 <label className="block text-sm font-semibold mb-2">التقييم *</label>
                 <StarRating rating={formRating} onChange={setFormRating} interactive />
               </div>
-
               <div>
-                <label className="block text-sm font-semibold mb-2">ملاحظتك <span className="text-muted-foreground font-normal">(اختياري)</span></label>
+                <label className="block text-sm font-semibold mb-2">
+                  ملاحظتك <span className="text-muted-foreground font-normal">(اختياري)</span>
+                </label>
                 <textarea
                   value={formComment}
                   onChange={(e) => setFormComment(e.target.value)}
@@ -368,11 +556,7 @@ export default function Landing() {
                   className="w-full px-4 py-3 rounded-xl bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all resize-none"
                 />
               </div>
-
-              {submitError && (
-                <p className="text-destructive text-sm">{submitError}</p>
-              )}
-
+              {submitError && <p className="text-destructive text-sm">{submitError}</p>}
               <button
                 type="submit"
                 disabled={submitting}
@@ -397,17 +581,17 @@ export default function Landing() {
           </p>
 
           {/* Designer Credit Box */}
-          <div className="inline-block">
-            <div className="px-8 py-5 rounded-2xl border-2 border-primary/40 bg-primary/5 hover:bg-primary/10 transition-colors">
+          <div className="flex justify-center mb-6">
+            <div className="px-10 py-6 rounded-2xl border-2 border-primary/50 bg-primary/5 hover:bg-primary/10 transition-colors shadow-md">
               <p className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Made with care</p>
-              <p className="text-xl font-black text-foreground">
+              <p className="text-2xl font-black text-foreground">
                 Designed &amp; Developed by{" "}
                 <span className="gold-text">Seif Kamel</span>
               </p>
             </div>
           </div>
 
-          <p className="text-xs text-muted-foreground mt-8">
+          <p className="text-xs text-muted-foreground mt-4">
             © {new Date().getFullYear()} تطبيق نور. جميع الحقوق محفوظة.
           </p>
         </div>
