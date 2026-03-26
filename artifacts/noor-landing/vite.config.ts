@@ -66,6 +66,9 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+    headers: {
+      "X-Content-Type-Options": "nosniff",
+    },
   },
   preview: {
     port,

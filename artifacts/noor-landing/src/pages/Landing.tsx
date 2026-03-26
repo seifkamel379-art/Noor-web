@@ -27,14 +27,14 @@ async function submitReview(data: { name: string; rating: number; comment: strin
   return res.json();
 }
 
-// Screenshot filenames in user-specified order
-// Dark mode: pages 01,02,03,24,04,05,11,06,07,08,09,10
-// Light mode: pages 13,12,14,15,16,17,18,19,20,21,22,23
+// Screenshot filenames in user-specified order (visually verified)
+// Dark mode:  01=رئيسية 02=متتبع 24=قرآن 03=فاتحة 04=أذكار 05=سبحة 11=مزيد 06=قبلة 07=إذاعات 08=أسماء 09=قراء 10=تدبر
+// Light mode: 12=رئيسية 23=متتبع 13=قرآن 14=فاتحة 15=أذكار 16=سبحة 17=مزيد 18=قبلة 19=إذاعات 20=أسماء 21=قراء 22=تدبر
 const DARK_SCREENS = [
   "/screenshots/page-01.jpg",  // الصورة الرئيسية
   "/screenshots/page-02.jpg",  // المتتبع اليومي
-  "/screenshots/page-03.jpg",  // القرآن الكريم
-  "/screenshots/page-24.jpg",  // سورة الفاتحة
+  "/screenshots/page-24.jpg",  // القرآن الكريم
+  "/screenshots/page-03.jpg",  // سورة الفاتحة
   "/screenshots/page-04.jpg",  // الأذكار
   "/screenshots/page-05.jpg",  // السبحة
   "/screenshots/page-11.jpg",  // صفحة المزيد
@@ -46,18 +46,18 @@ const DARK_SCREENS = [
 ];
 
 const LIGHT_SCREENS = [
-  "/screenshots/page-13.jpg", // الصورة الرئيسية
-  "/screenshots/page-12.jpg", // المتتبع اليومي
-  "/screenshots/page-14.jpg", // القرآن الكريم
-  "/screenshots/page-15.jpg", // سورة الفاتحة
-  "/screenshots/page-16.jpg", // الأذكار
-  "/screenshots/page-17.jpg", // السبحة
-  "/screenshots/page-18.jpg", // صفحة المزيد
-  "/screenshots/page-19.jpg", // تحديد القبلة
-  "/screenshots/page-20.jpg", // الاذاعات
-  "/screenshots/page-21.jpg", // اسماء الله الحسنى
-  "/screenshots/page-22.jpg", // القراء
-  "/screenshots/page-23.jpg", // التدبر الذكي
+  "/screenshots/page-12.jpg",  // الصورة الرئيسية
+  "/screenshots/page-23.jpg",  // المتتبع اليومي
+  "/screenshots/page-13.jpg",  // القرآن الكريم
+  "/screenshots/page-14.jpg",  // سورة الفاتحة
+  "/screenshots/page-15.jpg",  // الأذكار
+  "/screenshots/page-16.jpg",  // السبحة
+  "/screenshots/page-17.jpg",  // صفحة المزيد
+  "/screenshots/page-18.jpg",  // تحديد القبلة
+  "/screenshots/page-19.jpg",  // الاذاعات
+  "/screenshots/page-20.jpg",  // اسماء الله الحسنى
+  "/screenshots/page-21.jpg",  // القراء
+  "/screenshots/page-22.jpg",  // التدبر الذكي
 ];
 
 const SCREEN_LABELS = [
@@ -369,75 +369,72 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-16 md:py-20 islamic-pattern">
+      <section className="relative overflow-hidden py-12 md:py-16 islamic-pattern">
         <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-            {/* Text content */}
-            <div className="flex-1 text-center lg:text-right order-2 lg:order-1">
-              {/* Logo */}
-              <div className="flex justify-center lg:justify-start mb-8">
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-3xl bg-primary/20 blur-2xl scale-110" />
-                  <img
-                    src="/noor-logo.png"
-                    alt="شعار نور"
-                    className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-xl"
-                  />
-                </div>
-              </div>
+        <div className="max-w-2xl mx-auto px-4 flex flex-col items-center text-center gap-6">
+          {/* Logo */}
+          <div className="relative">
+            <div className="absolute inset-0 rounded-3xl bg-primary/20 blur-2xl scale-110" />
+            <img
+              src="/noor-logo.png"
+              alt="شعار نور"
+              className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-xl"
+            />
+          </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-3 leading-tight" style={{ fontFamily: "'Cairo', sans-serif" }}>
-                <span className="gold-text">تطبيق نور</span>
-              </h1>
-              <h2 className="text-xl md:text-2xl font-bold text-foreground/80 mb-4">
-                رفيقك الإسلامي الشامل
-              </h2>
-              <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-                صُمِّم لمساعدة المسلمين على تعزيز صلتهم بالله وإحياء سنة النبي ﷺ في حياتهم اليومية. قرآن، صلاة، أذكار، وأكثر — كل ما تحتاجه في تطبيق واحد.
-              </p>
+          {/* Title */}
+          <div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-2 leading-tight" style={{ fontFamily: "'Cairo', sans-serif" }}>
+              <span className="gold-text">تطبيق نور</span>
+            </h1>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground/80">
+              رفيقك الإسلامي الشامل
+            </h2>
+          </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a
-                  href="/noor-app.apk"
-                  download="noor-app.apk"
-                  className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-primary text-primary-foreground text-lg font-bold btn-shimmer hover:opacity-90 transition-all hover:scale-105 shadow-lg"
-                >
-                  <Download className="w-5 h-5" />
-                  تحميل التطبيق الآن (APK)
-                </a>
-                <a
-                  href="#features"
-                  className="flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-primary/40 text-primary text-lg font-semibold hover:bg-primary/10 transition-all"
-                >
-                  اكتشف المميزات
-                </a>
-              </div>
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl">
+            صُمِّم لمساعدة المسلمين على تعزيز صلتهم بالله وإحياء سنة النبي ﷺ في حياتهم اليومية. قرآن، صلاة، أذكار، وأكثر — كل ما تحتاجه في تطبيق واحد.
+          </p>
 
-              {/* Stats */}
-              <div className="mt-10 flex flex-wrap gap-6 justify-center lg:justify-start">
-                <div className="text-center">
-                  <div className="text-2xl font-black text-primary">+50</div>
-                  <div className="text-xs text-muted-foreground">قارئاً للقرآن</div>
-                </div>
-                <div className="w-px bg-border" />
-                <div className="text-center">
-                  <div className="text-2xl font-black text-primary">99</div>
-                  <div className="text-xs text-muted-foreground">اسم من أسماء الله</div>
-                </div>
-                <div className="w-px bg-border" />
-                <div className="text-center">
-                  <div className="text-2xl font-black text-primary">{reviews.length}+</div>
-                  <div className="text-xs text-muted-foreground">تقييم مستخدم</div>
-                </div>
-              </div>
+          {/* Phone Mockup */}
+          <PhoneMockup dark={dark} />
+
+          {/* Download Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center w-full">
+            <a
+              href="/noor-app.apk"
+              download="noor-app.apk"
+              type="application/vnd.android.package-archive"
+              className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-primary text-primary-foreground text-lg font-bold btn-shimmer hover:opacity-90 transition-all hover:scale-105 shadow-lg"
+            >
+              <Download className="w-5 h-5" />
+              تحميل التطبيق الآن (APK)
+            </a>
+            <a
+              href="#features"
+              className="flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-primary/40 text-primary text-lg font-semibold hover:bg-primary/10 transition-all"
+            >
+              اكتشف المميزات
+            </a>
+          </div>
+
+          {/* Stats */}
+          <div className="flex flex-wrap gap-6 justify-center">
+            <div className="text-center">
+              <div className="text-2xl font-black text-primary">+50</div>
+              <div className="text-xs text-muted-foreground">قارئاً للقرآن</div>
             </div>
-
-            {/* Phone Mockup with Slideshow */}
-            <div className="flex-shrink-0 flex justify-center order-1 lg:order-2">
-              <PhoneMockup dark={dark} />
+            <div className="w-px bg-border" />
+            <div className="text-center">
+              <div className="text-2xl font-black text-primary">99</div>
+              <div className="text-xs text-muted-foreground">اسم من أسماء الله</div>
+            </div>
+            <div className="w-px bg-border" />
+            <div className="text-center">
+              <div className="text-2xl font-black text-primary">{reviews.length}+</div>
+              <div className="text-xs text-muted-foreground">تقييم مستخدم</div>
             </div>
           </div>
         </div>
