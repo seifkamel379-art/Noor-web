@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight, Pencil, Trash2, X, Check } from "lucide-react";
 
 interface Review {
   id: number;
@@ -11,13 +11,35 @@ interface Review {
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
+const TOKENS_KEY = "noor-review-tokens";
+
+function getStoredTokens(): Record<number, string> {
+  try {
+    return JSON.parse(localStorage.getItem(TOKENS_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveToken(id: number, token: string) {
+  const tokens = getStoredTokens();
+  tokens[id] = token;
+  localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
+}
+
+function removeToken(id: number) {
+  const tokens = getStoredTokens();
+  delete tokens[id];
+  localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
+}
+
 async function fetchReviews(): Promise<Review[]> {
   const res = await fetch(`${BASE}/api/reviews`);
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
 }
 
-async function submitReview(data: { name: string; rating: number; comment: string }): Promise<Review> {
+async function submitReview(data: { name: string; rating: number; comment: string }): Promise<Review & { token: string }> {
   const res = await fetch(`${BASE}/api/reviews`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -27,37 +49,56 @@ async function submitReview(data: { name: string; rating: number; comment: strin
   return res.json();
 }
 
+async function updateReview(id: number, token: string, data: { name: string; rating: number; comment: string }): Promise<Review> {
+  const res = await fetch(`${BASE}/api/reviews/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, ...data }),
+  });
+  if (!res.ok) throw new Error("Failed to update");
+  return res.json();
+}
+
+async function deleteReview(id: number, token: string): Promise<void> {
+  const res = await fetch(`${BASE}/api/reviews/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token }),
+  });
+  if (!res.ok) throw new Error("Failed to delete");
+}
+
 // Screenshot filenames in user-specified order (visually verified)
 // Dark mode:  01=رئيسية 02=متتبع 24=قرآن 03=فاتحة 04=أذكار 05=سبحة 11=مزيد 06=قبلة 07=إذاعات 08=أسماء 09=قراء 10=تدبر
 // Light mode: 12=رئيسية 23=متتبع 13=قرآن 14=فاتحة 15=أذكار 16=سبحة 17=مزيد 18=قبلة 19=إذاعات 20=أسماء 21=قراء 22=تدبر
 const DARK_SCREENS = [
-  "/screenshots/page-01.jpg",  // الصورة الرئيسية
-  "/screenshots/page-02.jpg",  // المتتبع اليومي
-  "/screenshots/page-24.jpg",  // القرآن الكريم
-  "/screenshots/page-03.jpg",  // سورة الفاتحة
-  "/screenshots/page-04.jpg",  // الأذكار
-  "/screenshots/page-05.jpg",  // السبحة
-  "/screenshots/page-11.jpg",  // صفحة المزيد
-  "/screenshots/page-06.jpg",  // تحديد القبلة
-  "/screenshots/page-07.jpg",  // الاذاعات
-  "/screenshots/page-08.jpg",  // اسماء الله الحسنى
-  "/screenshots/page-09.jpg",  // القراء
-  "/screenshots/page-10.jpg",  // التدبر الذكي
+  "/screenshots/page-01.jpg",
+  "/screenshots/page-02.jpg",
+  "/screenshots/page-24.jpg",
+  "/screenshots/page-03.jpg",
+  "/screenshots/page-04.jpg",
+  "/screenshots/page-05.jpg",
+  "/screenshots/page-11.jpg",
+  "/screenshots/page-06.jpg",
+  "/screenshots/page-07.jpg",
+  "/screenshots/page-08.jpg",
+  "/screenshots/page-09.jpg",
+  "/screenshots/page-10.jpg",
 ];
 
 const LIGHT_SCREENS = [
-  "/screenshots/page-12.jpg",  // الصورة الرئيسية
-  "/screenshots/page-23.jpg",  // المتتبع اليومي
-  "/screenshots/page-13.jpg",  // القرآن الكريم
-  "/screenshots/page-14.jpg",  // سورة الفاتحة
-  "/screenshots/page-15.jpg",  // الأذكار
-  "/screenshots/page-16.jpg",  // السبحة
-  "/screenshots/page-17.jpg",  // صفحة المزيد
-  "/screenshots/page-18.jpg",  // تحديد القبلة
-  "/screenshots/page-19.jpg",  // الاذاعات
-  "/screenshots/page-20.jpg",  // اسماء الله الحسنى
-  "/screenshots/page-21.jpg",  // القراء
-  "/screenshots/page-22.jpg",  // التدبر الذكي
+  "/screenshots/page-12.jpg",
+  "/screenshots/page-23.jpg",
+  "/screenshots/page-13.jpg",
+  "/screenshots/page-14.jpg",
+  "/screenshots/page-15.jpg",
+  "/screenshots/page-16.jpg",
+  "/screenshots/page-17.jpg",
+  "/screenshots/page-18.jpg",
+  "/screenshots/page-19.jpg",
+  "/screenshots/page-20.jpg",
+  "/screenshots/page-21.jpg",
+  "/screenshots/page-22.jpg",
 ];
 
 const SCREEN_LABELS = [
@@ -127,7 +168,6 @@ function PhoneMockup({ dark }: { dark: boolean }) {
   };
 
   useEffect(() => {
-    // Reset on mode change
     setCurrentIndex(0);
     setVisible(true);
   }, [dark]);
@@ -169,9 +209,7 @@ function PhoneMockup({ dark }: { dark: boolean }) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* Phone + nav arrows */}
       <div className="relative flex items-center gap-3">
-        {/* Prev arrow */}
         <button
           onClick={prev}
           className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"
@@ -180,9 +218,7 @@ function PhoneMockup({ dark }: { dark: boolean }) {
           <ChevronRight className="w-4 h-4 text-primary" />
         </button>
 
-        {/* Phone frame */}
         <div className="relative">
-          {/* Glow effect */}
           <div className="absolute inset-0 rounded-[44px] bg-primary/20 blur-2xl scale-95 pointer-events-none" />
           <div
             className="relative w-[230px] h-[470px] rounded-[40px] overflow-hidden"
@@ -194,7 +230,6 @@ function PhoneMockup({ dark }: { dark: boolean }) {
                 : "inset 0 0 0 1px rgba(0,0,0,0.08), 0 30px 60px rgba(139,90,43,0.28)",
             }}
           >
-            {/* Status bar notch */}
             <div
               className="absolute top-0 left-0 right-0 z-20 flex justify-center pt-2"
               style={{ background: dark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.3)" }}
@@ -202,7 +237,6 @@ function PhoneMockup({ dark }: { dark: boolean }) {
               <div className="w-16 h-3 rounded-full bg-black/20" />
             </div>
 
-            {/* Screenshot */}
             <img
               key={`${dark ? "d" : "l"}-${currentIndex}`}
               src={screens[currentIndex]}
@@ -211,7 +245,6 @@ function PhoneMockup({ dark }: { dark: boolean }) {
               style={{ opacity: visible ? 1 : 0 }}
             />
 
-            {/* Screen name overlay */}
             <div
               className="absolute bottom-0 left-0 right-0 z-10 py-2 px-3 flex items-center justify-center"
               style={{
@@ -225,14 +258,12 @@ function PhoneMockup({ dark }: { dark: boolean }) {
               </span>
             </div>
           </div>
-          {/* Home indicator */}
           <div
             className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-1 rounded-full"
             style={{ backgroundColor: dark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)" }}
           />
         </div>
 
-        {/* Next arrow */}
         <button
           onClick={next}
           className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"
@@ -242,7 +273,6 @@ function PhoneMockup({ dark }: { dark: boolean }) {
         </button>
       </div>
 
-      {/* Dots indicator */}
       <div className="flex gap-1.5 flex-wrap justify-center max-w-[200px]">
         {screens.map((_, i) => (
           <button
@@ -261,7 +291,6 @@ function PhoneMockup({ dark }: { dark: boolean }) {
         ))}
       </div>
 
-      {/* Screen counter */}
       <p className="text-xs text-muted-foreground">
         {currentIndex + 1} / {screens.length}
       </p>
@@ -269,10 +298,198 @@ function PhoneMockup({ dark }: { dark: boolean }) {
   );
 }
 
+function EditModal({
+  review,
+  onSave,
+  onClose,
+}: {
+  review: Review;
+  onSave: (updated: Review) => void;
+  onClose: () => void;
+}) {
+  const [name, setName] = useState(review.name);
+  const [rating, setRating] = useState(review.rating);
+  const [comment, setComment] = useState(review.comment);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) { setError("من فضلك أدخل اسمك"); return; }
+    const token = getStoredTokens()[review.id];
+    if (!token) { setError("لا تملك صلاحية التعديل"); return; }
+    setSaving(true);
+    setError("");
+    try {
+      const updated = await updateReview(review.id, token, { name: name.trim(), rating, comment: comment.trim() });
+      onSave(updated);
+    } catch {
+      setError("حدث خطأ أثناء التعديل، حاول مجدداً");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.6)" }}>
+      <div className="bg-card border border-card-border rounded-3xl p-6 w-full max-w-md shadow-2xl" dir="rtl">
+        <div className="flex items-center justify-between mb-5">
+          <h3 className="text-lg font-bold">تعديل التقييم</h3>
+          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-secondary flex items-center justify-center transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <form onSubmit={handleSave} className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold mb-2">الاسم *</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2">التقييم *</label>
+            <StarRating rating={rating} onChange={setRating} interactive />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2">الملاحظة</label>
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              rows={3}
+              className="w-full px-4 py-3 rounded-xl bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all resize-none"
+            />
+          </div>
+          {error && <p className="text-destructive text-sm">{error}</p>}
+          <div className="flex gap-3">
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:opacity-90 transition-all disabled:opacity-60"
+            >
+              <Check className="w-4 h-4" />
+              {saving ? "جارٍ الحفظ..." : "حفظ التعديل"}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-3 rounded-xl border border-card-border hover:bg-secondary transition-colors font-semibold"
+            >
+              إلغاء
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function ReviewCard({
+  review,
+  ownToken,
+  onUpdated,
+  onDeleted,
+}: {
+  review: Review;
+  ownToken: string | undefined;
+  onUpdated: (updated: Review) => void;
+  onDeleted: (id: number) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!ownToken) return;
+    setDeleting(true);
+    try {
+      await deleteReview(review.id, ownToken);
+      removeToken(review.id);
+      onDeleted(review.id);
+    } catch {
+      setDeleting(false);
+      setConfirmDelete(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="bg-card border border-card-border rounded-2xl p-5 hover:border-primary/30 transition-colors relative">
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <div className="font-bold text-foreground">{review.name}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              {new Date(review.createdAt).toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" })}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <StarRating rating={review.rating} />
+            {ownToken && (
+              <div className="flex gap-1 mr-1">
+                <button
+                  onClick={() => setEditing(true)}
+                  className="w-7 h-7 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors"
+                  title="تعديل التقييم"
+                >
+                  <Pencil className="w-3.5 h-3.5 text-primary" />
+                </button>
+                <button
+                  onClick={() => setConfirmDelete(true)}
+                  className="w-7 h-7 rounded-lg bg-destructive/10 hover:bg-destructive/20 flex items-center justify-center transition-colors"
+                  title="حذف التقييم"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        {review.comment && (
+          <p className="text-foreground/80 text-sm leading-relaxed">{review.comment}</p>
+        )}
+
+        {confirmDelete && (
+          <div className="absolute inset-0 rounded-2xl bg-card/95 backdrop-blur-sm flex flex-col items-center justify-center gap-3 p-4">
+            <p className="font-semibold text-center">هل أنت متأكد من حذف تقييمك؟</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="px-5 py-2 rounded-xl bg-destructive text-destructive-foreground font-bold text-sm hover:opacity-90 transition-all disabled:opacity-60"
+              >
+                {deleting ? "جارٍ الحذف..." : "نعم، احذف"}
+              </button>
+              <button
+                onClick={() => setConfirmDelete(false)}
+                disabled={deleting}
+                className="px-5 py-2 rounded-xl border border-card-border hover:bg-secondary transition-colors font-semibold text-sm"
+              >
+                إلغاء
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {editing && (
+        <EditModal
+          review={review}
+          onSave={(updated) => { onUpdated(updated); setEditing(false); }}
+          onClose={() => setEditing(false)}
+        />
+      )}
+    </>
+  );
+}
+
 export default function Landing() {
   const [dark, setDark] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
+  const [myTokens, setMyTokens] = useState<Record<number, string>>({});
   const [formName, setFormName] = useState("");
   const [formRating, setFormRating] = useState(5);
   const [formComment, setFormComment] = useState("");
@@ -286,6 +503,7 @@ export default function Landing() {
       setDark(true);
       document.documentElement.classList.add("dark");
     }
+    setMyTokens(getStoredTokens());
   }, []);
 
   useEffect(() => {
@@ -315,6 +533,8 @@ export default function Landing() {
     setSubmitting(true);
     try {
       const review = await submitReview({ name: formName.trim(), rating: formRating, comment: formComment.trim() });
+      saveToken(review.id, review.token);
+      setMyTokens(getStoredTokens());
       setReviews(prev => [review, ...prev]);
       setFormName("");
       setFormRating(5);
@@ -374,7 +594,6 @@ export default function Landing() {
         <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
         <div className="max-w-2xl mx-auto px-4 flex flex-col items-center text-center gap-6">
-          {/* Logo */}
           <div className="relative">
             <div className="absolute inset-0 rounded-3xl bg-primary/20 blur-2xl scale-110" />
             <img
@@ -384,7 +603,6 @@ export default function Landing() {
             />
           </div>
 
-          {/* Title */}
           <div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-2 leading-tight" style={{ fontFamily: "'Cairo', sans-serif" }}>
               <span className="gold-text">تطبيق نور</span>
@@ -398,10 +616,8 @@ export default function Landing() {
             صُمِّم لمساعدة المسلمين على تعزيز صلتهم بالله وإحياء سنة النبي ﷺ في حياتهم اليومية. قرآن، صلاة، أذكار، وأكثر — كل ما تحتاجه في تطبيق واحد.
           </p>
 
-          {/* Phone Mockup */}
           <PhoneMockup dark={dark} />
 
-          {/* Download Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full">
             <a
               href="/noor-app.apk"
@@ -420,7 +636,6 @@ export default function Landing() {
             </a>
           </div>
 
-          {/* Stats */}
           <div className="flex flex-wrap gap-6 justify-center">
             <div className="text-center">
               <div className="text-2xl font-black text-primary">+50</div>
@@ -489,7 +704,6 @@ export default function Landing() {
             )}
           </div>
 
-          {/* Reviews List */}
           {loadingReviews ? (
             <div className="text-center py-12 text-muted-foreground">جارٍ تحميل التقييمات...</div>
           ) : reviews.length === 0 ? (
@@ -500,20 +714,13 @@ export default function Landing() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
               {reviews.slice(0, 6).map((review) => (
-                <div key={review.id} className="bg-card border border-card-border rounded-2xl p-5 hover:border-primary/30 transition-colors">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <div className="font-bold text-foreground">{review.name}</div>
-                      <div className="text-xs text-muted-foreground mt-0.5">
-                        {new Date(review.createdAt).toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" })}
-                      </div>
-                    </div>
-                    <StarRating rating={review.rating} />
-                  </div>
-                  {review.comment && (
-                    <p className="text-foreground/80 text-sm leading-relaxed">{review.comment}</p>
-                  )}
-                </div>
+                <ReviewCard
+                  key={review.id}
+                  review={review}
+                  ownToken={myTokens[review.id]}
+                  onUpdated={(updated) => setReviews(prev => prev.map(r => r.id === updated.id ? updated : r))}
+                  onDeleted={(id) => setReviews(prev => prev.filter(r => r.id !== id))}
+                />
               ))}
             </div>
           )}
@@ -578,7 +785,6 @@ export default function Landing() {
             رفيقك الإسلامي الشامل • القرآن • الصلاة • الأذكار
           </p>
 
-          {/* Designer Credit Box */}
           <div className="flex justify-center mb-6">
             <div className="px-10 py-6 rounded-2xl border-2 border-primary/50 bg-primary/5 hover:bg-primary/10 transition-colors shadow-md">
               <p className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Made with care</p>
