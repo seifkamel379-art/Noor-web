@@ -112,4 +112,19 @@ router.delete("/reviews/:id", async (req, res) => {
   }
 });
 
+router.delete("/admin/reviews/clear", async (req, res) => {
+  const { adminKey } = req.body as { adminKey?: string };
+  if (adminKey !== "noor-admin-clear-2026") {
+    res.status(403).json({ error: "Forbidden" });
+    return;
+  }
+  try {
+    await db.delete(reviewsTable);
+    res.json({ success: true });
+  } catch (err) {
+    req.log.error({ err }, "Failed to clear reviews");
+    res.status(500).json({ error: "Failed to clear reviews" });
+  }
+});
+
 export default router;
