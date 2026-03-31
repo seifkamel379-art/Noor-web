@@ -22,7 +22,8 @@ const firebaseConfig = {
   projectId: "noooor-1c021",
   storageBucket: "noooor-1c021.firebasestorage.app",
   messagingSenderId: "1057114703601",
-  appId: "1:1057114703601:web:f0366f0cd765c0b0940b50",
+  appId: "1:1057114703601:web:e3328c18ca99afa6940b50",
+  measurementId: "G-PPYKEXH3HJ",
 };
 
 const app = initializeApp(firebaseConfig);
