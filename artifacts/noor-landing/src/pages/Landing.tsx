@@ -495,10 +495,14 @@ export default function Landing() {
   };
 
   const handleDownload = () => {
+    console.log("[Noor] Download button clicked");
     incrementDownloadCount()
-      .then(() => setDownloadCount(c => c + 1))
+      .then(() => {
+        console.log("[Noor] Counter updated in state");
+        setDownloadCount(c => c + 1);
+      })
       .catch((err) => {
-        console.error("Download counter error:", err?.code, err?.message);
+        console.error("[Noor] Download counter error:", err?.code, err?.message, err);
       });
   };
 

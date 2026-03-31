@@ -103,13 +103,21 @@ export async function deleteReview(id: string, token: string): Promise<void> {
 }
 
 export async function getDownloadCount(): Promise<number> {
-  const docRef = doc(db, "app_stats", "downloads");
-  const snapshot = await getDoc(docRef);
-  if (!snapshot.exists()) return 0;
-  return snapshot.data().count ?? 0;
+  try {
+    const docRef = doc(db, "app_stats", "downloads");
+    const snapshot = await getDoc(docRef);
+    console.log("[Noor] getDownloadCount - exists:", snapshot.exists(), "data:", snapshot.data());
+    if (!snapshot.exists()) return 0;
+    return snapshot.data().count ?? 0;
+  } catch (err) {
+    console.error("[Noor] getDownloadCount error:", err);
+    return 0;
+  }
 }
 
 export async function incrementDownloadCount(): Promise<void> {
+  console.log("[Noor] incrementDownloadCount called");
   const docRef = doc(db, "app_stats", "downloads");
   await setDoc(docRef, { count: increment(1) }, { merge: true });
+  console.log("[Noor] incrementDownloadCount succeeded");
 }
