@@ -497,7 +497,9 @@ export default function Landing() {
   const handleDownload = () => {
     incrementDownloadCount()
       .then(() => setDownloadCount(c => c + 1))
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Download counter error:", err?.code, err?.message);
+      });
   };
 
   const avgRating = reviews.length
