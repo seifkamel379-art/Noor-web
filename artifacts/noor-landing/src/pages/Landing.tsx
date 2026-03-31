@@ -1,19 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight, Pencil, Trash2, X, Check } from "lucide-react";
-
-interface Review {
-  id: number;
-  name: string;
-  rating: number;
-  comment: string;
-  createdAt: string;
-}
-
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+import {
+  type Review,
+  fetchReviews,
+  submitReview,
+  updateReview,
+  deleteReview,
+  getDownloadCount,
+  incrementDownloadCount,
+} from "@/lib/firebase";
 
 const TOKENS_KEY = "noor-review-tokens";
 
-function getStoredTokens(): Record<number, string> {
+function getStoredTokens(): Record<string, string> {
   try {
     return JSON.parse(localStorage.getItem(TOKENS_KEY) || "{}");
   } catch {
@@ -21,84 +20,50 @@ function getStoredTokens(): Record<number, string> {
   }
 }
 
-function saveToken(id: number, token: string) {
+function saveToken(id: string, token: string) {
   const tokens = getStoredTokens();
   tokens[id] = token;
   localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
 }
 
-function removeToken(id: number) {
+function removeToken(id: string) {
   const tokens = getStoredTokens();
   delete tokens[id];
   localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
 }
 
-async function fetchReviews(): Promise<Review[]> {
-  const res = await fetch(`${BASE}/api/reviews`);
-  if (!res.ok) throw new Error("Failed to fetch");
-  return res.json();
-}
-
-async function submitReview(data: { name: string; rating: number; comment: string }): Promise<Review & { token: string }> {
-  const res = await fetch(`${BASE}/api/reviews`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Failed to submit");
-  return res.json();
-}
-
-async function updateReview(id: number, token: string, data: { name: string; rating: number; comment: string }): Promise<Review> {
-  const res = await fetch(`${BASE}/api/reviews/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, ...data }),
-  });
-  if (!res.ok) throw new Error("Failed to update");
-  return res.json();
-}
-
-async function deleteReview(id: number, token: string): Promise<void> {
-  const res = await fetch(`${BASE}/api/reviews/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token }),
-  });
-  if (!res.ok) throw new Error("Failed to delete");
-}
-
-// Screenshot filenames in user-specified order (visually verified)
-// Dark mode:  01=رئيسية 02=متتبع 24=قرآن 03=فاتحة 04=أذكار 05=سبحة 11=مزيد 06=قبلة 07=إذاعات 08=أسماء 09=قراء 10=تدبر
-// Light mode: 12=رئيسية 23=متتبع 13=قرآن 14=فاتحة 15=أذكار 16=سبحة 17=مزيد 18=قبلة 19=إذاعات 20=أسماء 21=قراء 22=تدبر
+// Dark mode screenshots
 const DARK_SCREENS = [
-  "/screenshots/page-01.jpg",
-  "/screenshots/page-02.jpg",
-  "/screenshots/page-24.jpg",
-  "/screenshots/page-03.jpg",
-  "/screenshots/page-04.jpg",
-  "/screenshots/page-05.jpg",
-  "/screenshots/page-11.jpg",
-  "/screenshots/page-06.jpg",
-  "/screenshots/page-07.jpg",
-  "/screenshots/page-08.jpg",
-  "/screenshots/page-09.jpg",
-  "/screenshots/page-10.jpg",
+  "/screenshots/page-01.jpg",   // الصورة الرئيسية
+  "/screenshots/page-02.jpg",   // المتتبع اليومي
+  "/screenshots/page-24.jpg",   // القرآن الكريم
+  "/screenshots/page-03.jpg",   // سورة الفاتحة
+  "/screenshots/page-04.jpg",   // الأذكار
+  "/screenshots/page-05.jpg",   // السبحة
+  "/screenshots/page-25.jpg",   // العداد العالمي
+  "/screenshots/page-11.jpg",   // صفحة المزيد
+  "/screenshots/page-06.jpg",   // تحديد القبلة
+  "/screenshots/page-07.jpg",   // الإذاعات الإسلامية
+  "/screenshots/page-08.jpg",   // أسماء الله الحسنى
+  "/screenshots/page-09.jpg",   // القراء
+  "/screenshots/page-10.jpg",   // التدبر الذكي
 ];
 
+// Light mode screenshots
 const LIGHT_SCREENS = [
-  "/screenshots/page-12.jpg",
-  "/screenshots/page-23.jpg",
-  "/screenshots/page-13.jpg",
-  "/screenshots/page-14.jpg",
-  "/screenshots/page-15.jpg",
-  "/screenshots/page-16.jpg",
-  "/screenshots/page-17.jpg",
-  "/screenshots/page-18.jpg",
-  "/screenshots/page-19.jpg",
-  "/screenshots/page-20.jpg",
-  "/screenshots/page-21.jpg",
-  "/screenshots/page-22.jpg",
+  "/screenshots/page-12.jpg",   // الصورة الرئيسية
+  "/screenshots/page-23.jpg",   // المتتبع اليومي
+  "/screenshots/page-13.jpg",   // القرآن الكريم
+  "/screenshots/page-14.jpg",   // سورة الفاتحة
+  "/screenshots/page-15.jpg",   // الأذكار
+  "/screenshots/page-16.jpg",   // السبحة
+  "/screenshots/page-26.jpg",   // العداد العالمي
+  "/screenshots/page-17.jpg",   // صفحة المزيد
+  "/screenshots/page-18.jpg",   // تحديد القبلة
+  "/screenshots/page-19.jpg",   // الإذاعات الإسلامية
+  "/screenshots/page-20.jpg",   // أسماء الله الحسنى
+  "/screenshots/page-21.jpg",   // القراء
+  "/screenshots/page-22.jpg",   // التدبر الذكي
 ];
 
 const SCREEN_LABELS = [
@@ -108,9 +73,10 @@ const SCREEN_LABELS = [
   "سورة الفاتحة",
   "الأذكار",
   "السبحة",
+  "العداد العالمي",
   "صفحة المزيد",
   "تحديد القبلة",
-  "الإذاعات",
+  "الإذاعات الإسلامية",
   "أسماء الله الحسنى",
   "القراء",
   "التدبر الذكي",
@@ -396,7 +362,7 @@ function ReviewCard({
   review: Review;
   ownToken: string | undefined;
   onUpdated: (updated: Review) => void;
-  onDeleted: (id: number) => void;
+  onDeleted: (id: string) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -489,7 +455,8 @@ export default function Landing() {
   const [dark, setDark] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
-  const [myTokens, setMyTokens] = useState<Record<number, string>>({});
+  const [myTokens, setMyTokens] = useState<Record<string, string>>({});
+  const [downloadCount, setDownloadCount] = useState(0);
   const [formName, setFormName] = useState("");
   const [formRating, setFormRating] = useState(5);
   const [formComment, setFormComment] = useState("");
@@ -513,12 +480,24 @@ export default function Landing() {
       .finally(() => setLoadingReviews(false));
   }, []);
 
+  useEffect(() => {
+    getDownloadCount()
+      .then(setDownloadCount)
+      .catch(console.error);
+  }, []);
+
   const toggleDark = () => {
     const next = !dark;
     setDark(next);
     localStorage.setItem("noor-dark", String(next));
     if (next) document.documentElement.classList.add("dark");
     else document.documentElement.classList.remove("dark");
+  };
+
+  const handleDownload = () => {
+    incrementDownloadCount()
+      .then(() => setDownloadCount(c => c + 1))
+      .catch(console.error);
   };
 
   const avgRating = reviews.length
@@ -572,6 +551,7 @@ export default function Landing() {
             <a
               href="/noor-app.apk"
               download="noor-app.apk"
+              onClick={handleDownload}
               className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold btn-shimmer hover:opacity-90 transition-opacity"
             >
               <Download className="w-4 h-4" />
@@ -623,6 +603,7 @@ export default function Landing() {
               href="/noor-app.apk"
               download="noor-app.apk"
               type="application/vnd.android.package-archive"
+              onClick={handleDownload}
               className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-primary text-primary-foreground text-lg font-bold btn-shimmer hover:opacity-90 transition-all hover:scale-105 shadow-lg"
             >
               <Download className="w-5 h-5" />
@@ -636,6 +617,7 @@ export default function Landing() {
             </a>
           </div>
 
+          {/* Stats */}
           <div className="flex flex-wrap gap-6 justify-center">
             <div className="text-center">
               <div className="text-2xl font-black text-primary">+50</div>
@@ -648,7 +630,12 @@ export default function Landing() {
             </div>
             <div className="w-px bg-border" />
             <div className="text-center">
-              <div className="text-2xl font-black text-primary">{reviews.length}+</div>
+              <div className="text-2xl font-black text-primary">{downloadCount > 0 ? `+${downloadCount}` : "0"}</div>
+              <div className="text-xs text-muted-foreground">تحميل</div>
+            </div>
+            <div className="w-px bg-border" />
+            <div className="text-center">
+              <div className="text-2xl font-black text-primary">{reviews.length > 0 ? `+${reviews.length}` : "0"}</div>
               <div className="text-xs text-muted-foreground">تقييم مستخدم</div>
             </div>
           </div>
