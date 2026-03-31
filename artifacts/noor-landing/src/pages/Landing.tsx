@@ -457,6 +457,7 @@ export default function Landing() {
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [myTokens, setMyTokens] = useState<Record<string, string>>({});
   const [downloadCount, setDownloadCount] = useState(0);
+  const [downloadMsg, setDownloadMsg] = useState<"success" | "error" | null>(null);
   const [formName, setFormName] = useState("");
   const [formRating, setFormRating] = useState(5);
   const [formComment, setFormComment] = useState("");
@@ -494,15 +495,27 @@ export default function Landing() {
     else document.documentElement.classList.remove("dark");
   };
 
-  const handleDownload = () => {
-    console.log("[Noor] Download button clicked");
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const url = "/noor-app.apk";
     incrementDownloadCount()
       .then(() => {
-        console.log("[Noor] Counter updated in state");
         setDownloadCount(c => c + 1);
+        setDownloadMsg("success");
+        setTimeout(() => setDownloadMsg(null), 3000);
       })
       .catch((err) => {
         console.error("[Noor] Download counter error:", err?.code, err?.message, err);
+        setDownloadMsg("error");
+        setTimeout(() => setDownloadMsg(null), 4000);
+      })
+      .finally(() => {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "noor-app.apk";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       });
   };
 
@@ -546,6 +559,12 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground" dir="rtl">
+      {/* Download Toast */}
+      {downloadMsg && (
+        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-2xl shadow-xl text-white text-sm font-bold transition-all ${downloadMsg === "success" ? "bg-green-600" : "bg-red-600"}`}>
+          {downloadMsg === "success" ? "✅ تم تسجيل التحميل بنجاح" : "❌ فشل تسجيل التحميل — تحقق من الإنترنت"}
+        </div>
+      )}
       {/* Navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
