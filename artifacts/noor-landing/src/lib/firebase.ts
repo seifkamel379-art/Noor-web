@@ -17,13 +17,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB0kNHpgVF2r5jsfuKTPR2WySmQD919-eY",
-  authDomain: "noooor-1c021.firebaseapp.com",
-  projectId: "noooor-1c021",
-  storageBucket: "noooor-1c021.firebasestorage.app",
-  messagingSenderId: "1057114703601",
-  appId: "1:1057114703601:web:e3328c18ca99afa6940b50",
-  measurementId: "G-PPYKEXH3HJ",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
+  authDomain: "noor-web-595df.firebaseapp.com",
+  projectId: "noor-web-595df",
+  storageBucket: "noor-web-595df.firebasestorage.app",
+  messagingSenderId: "367457789673",
+  appId: "1:367457789673:web:c8d42ff3fef4a12129b278",
+  measurementId: "G-1387SXZHGL",
 };
 
 const app = initializeApp(firebaseConfig);

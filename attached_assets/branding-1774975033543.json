@@ -1,0 +1,139 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "Google Sans",
+      "role": "body"
+    },
+    {
+      "family": "Noto Sans",
+      "role": "body"
+    }
+  ],
+  "colors": {
+    "primary": "#0B57D0",
+    "secondary": "#93B234",
+    "accent": "#E88000",
+    "background": "#FFFFFF",
+    "textPrimary": "#191919",
+    "link": "#E88000"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Google Sans",
+      "heading": "Google Sans"
+    },
+    "fontStacks": {
+      "heading": [
+        "Google Sans",
+        "Noto Sans",
+        "Noto Naskh Arabic",
+        "sans-serif"
+      ],
+      "body": [
+        "Google Sans",
+        "Noto Sans",
+        "Noto Naskh Arabic",
+        "sans-serif"
+      ],
+      "paragraph": [
+        "Google Sans",
+        "Noto Sans",
+        "Noto Naskh Arabic",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "38px",
+      "h2": "32px",
+      "body": "16px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "0px"
+  },
+  "components": {
+    "input": {
+      "background": "#F1F3F4",
+      "textColor": "#666666",
+      "borderColor": null,
+      "borderRadius": "0px",
+      "borderRadiusCorners": {
+        "topLeft": "0px",
+        "topRight": "0px",
+        "bottomRight": "0px",
+        "bottomLeft": "0px"
+      },
+      "shadow": "none"
+    },
+    "buttonPrimary": {
+      "background": "#FFFFFF",
+      "textColor": "#0B57D0",
+      "borderRadius": "4px",
+      "borderRadiusCorners": {
+        "topLeft": "4px",
+        "topRight": "4px",
+        "bottomRight": "4px",
+        "bottomLeft": "4px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "logo": "File saved at: attached_assets/logo.svg",
+    "favicon": "File saved at: attached_assets/favicon.png",
+    "ogImage": null,
+    "logoHref": "File saved at: attached_assets/logoHref.html",
+    "logoAlt": "Firebase"
+  },
+  "__llm_logo_reasoning": {
+    "selectedIndex": 0,
+    "reasoning": "Selected #0 because it is visible, located in the header, and links to the homepage, matching the brand 'Firebase'.",
+    "confidence": 0.95,
+    "source": "llm"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 1,
+      "text": "Go to console",
+      "reasoning": "The 'Go to console' button is likely the primary CTA as it directs users to the main Firebase console, which is a key action for users engaging with the platform."
+    },
+    "secondary": {
+      "index": 2,
+      "text": "Sign in",
+      "reasoning": "The 'Sign in' button is a common secondary action, allowing users to access their accounts, which complements the primary action of accessing the console."
+    },
+    "confidence": 0.9
+  },
+  "personality": {
+    "tone": "professional",
+    "energy": "medium",
+    "targetAudience": "developers and tech professionals"
+  },
+  "designSystem": {
+    "framework": "custom",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.9,
+    "colors": 0.95,
+    "overall": 0.925
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": 0,
+        "selectedLogoReasoning": "Selected #0 because it is visible, located in the header, and links to the homepage, matching the brand 'Firebase'.",
+        "confidence": 0.95
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}
