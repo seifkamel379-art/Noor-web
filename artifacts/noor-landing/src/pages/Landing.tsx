@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight, Pencil, Trash2, X, Check } from "lucide-react";
+import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight, Pencil, Trash2, X, Check, Tv, Scroll, Landmark, Users, GraduationCap, BookMarked } from "lucide-react";
 import {
   type Review,
   fetchReviews,
@@ -39,7 +39,7 @@ const DARK_SCREENS = [
   "/screenshots/page-24.jpg",   // القرآن الكريم
   "/screenshots/page-03.jpg",   // سورة الفاتحة
   "/screenshots/page-04.jpg",   // الأذكار
-  "/screenshots/page-05.jpg",   // السبحة
+  "/screenshots/page-05.jpg",   // السبحة الإلكترونية
   "/screenshots/page-25.jpg",   // العداد العالمي
   "/screenshots/page-11.jpg",   // صفحة المزيد
   "/screenshots/page-06.jpg",   // تحديد القبلة
@@ -47,6 +47,12 @@ const DARK_SCREENS = [
   "/screenshots/page-08.jpg",   // أسماء الله الحسنى
   "/screenshots/page-09.jpg",   // القراء
   "/screenshots/page-10.jpg",   // التدبر الذكي
+  "/screenshots/page-27.jpg",   // الأحاديث الشريفة
+  "/screenshots/page-29.jpg",   // التاريخ الإسلامي
+  "/screenshots/page-31.jpg",   // قصص الأنبياء
+  "/screenshots/page-33.jpg",   // سنن النبي
+  "/screenshots/page-35.jpg",   // الاختبارات الإسلامية
+  "/screenshots/page-37.jpg",   // القنوات الإسلامية
 ];
 
 // Light mode screenshots
@@ -56,7 +62,7 @@ const LIGHT_SCREENS = [
   "/screenshots/page-13.jpg",   // القرآن الكريم
   "/screenshots/page-14.jpg",   // سورة الفاتحة
   "/screenshots/page-15.jpg",   // الأذكار
-  "/screenshots/page-16.jpg",   // السبحة
+  "/screenshots/page-16.jpg",   // السبحة الإلكترونية
   "/screenshots/page-26.jpg",   // العداد العالمي
   "/screenshots/page-17.jpg",   // صفحة المزيد
   "/screenshots/page-18.jpg",   // تحديد القبلة
@@ -64,6 +70,12 @@ const LIGHT_SCREENS = [
   "/screenshots/page-20.jpg",   // أسماء الله الحسنى
   "/screenshots/page-21.jpg",   // القراء
   "/screenshots/page-22.jpg",   // التدبر الذكي
+  "/screenshots/page-28.jpg",   // الأحاديث الشريفة
+  "/screenshots/page-30.jpg",   // التاريخ الإسلامي
+  "/screenshots/page-32.jpg",   // قصص الأنبياء
+  "/screenshots/page-34.jpg",   // سنن النبي
+  "/screenshots/page-36.jpg",   // الاختبارات الإسلامية
+  "/screenshots/page-38.jpg",   // القنوات الإسلامية
 ];
 
 const SCREEN_LABELS = [
@@ -72,7 +84,7 @@ const SCREEN_LABELS = [
   "القرآن الكريم",
   "سورة الفاتحة",
   "الأذكار",
-  "السبحة",
+  "السبحة الإلكترونية",
   "العداد العالمي",
   "صفحة المزيد",
   "تحديد القبلة",
@@ -80,6 +92,12 @@ const SCREEN_LABELS = [
   "أسماء الله الحسنى",
   "القراء",
   "التدبر الذكي",
+  "الأحاديث الشريفة",
+  "التاريخ الإسلامي",
+  "قصص الأنبياء",
+  "سنن النبي",
+  "الاختبارات الإسلامية",
+  "القنوات الإسلامية",
 ];
 
 function StarRating({ rating, onChange, interactive = false }: { rating: number; onChange?: (r: number) => void; interactive?: boolean }) {
@@ -550,10 +568,16 @@ export default function Landing() {
     { icon: BookOpen, title: "القرآن الكريم", description: "تلاوات بأصوات أكثر من 50 قارئاً مع قارئ التدبر الذكي وتفسير الجلالين" },
     { icon: Clock, title: "مواقيت الصلاة", description: "مواقيت صلاة دقيقة بحسب موقعك الجغرافي مع أذان لكل صلاة" },
     { icon: Heart, title: "الأذكار والأدعية", description: "أذكار الصباح والمساء وأدعية يومية منتقاة من السنة النبوية الشريفة" },
-    { icon: Circle, title: "السبحة الإلكترونية", description: "سبحة ذكية تحسب الجولات تلقائياً مع أصوات خشوع هادئة" },
+    { icon: Circle, title: "السبحة الإلكترونية", description: "سبحة ذكية تحسب الجولات تلقائياً مع خلفية المسجد الأقصى وأصوات خشوع هادئة" },
     { icon: Compass, title: "اتجاه القبلة", description: "تحديد اتجاه القبلة بدقة عالية باستخدام البوصلة والخرائط" },
     { icon: Hash, title: "أسماء الله الحسنى", description: "الأسماء الحسنى التسعة والتسعون مع شرح معنى كل اسم" },
     { icon: Radio, title: "إذاعات إسلامية", description: "مجموعة متنوعة من الإذاعات الإسلامية للقرآن والمحاضرات" },
+    { icon: Scroll, title: "الأحاديث الشريفة", description: "أحاديث النبي ﷺ من كبار المصادر: البخاري، مسلم، الترمذي، وغيرها" },
+    { icon: Landmark, title: "التاريخ الإسلامي", description: "142 حدثاً محقّقاً من السيرة النبوية وحتى الدولة العثمانية" },
+    { icon: Users, title: "قصص الأنبياء", description: "قصص الأنبياء لابن كثير بتحقيق د. مصطفى عبد الواحد" },
+    { icon: BookMarked, title: "سنن النبي ﷺ", description: "اقتداء بهدي المصطفى ﷺ في يومك — سنن الاستيقاظ والوضوء والطعام وأكثر" },
+    { icon: GraduationCap, title: "الاختبارات الإسلامية", description: "5820 سؤالاً في 6 تخصصات شرعية: العقيدة، التفسير، الفقه، الحديث، وغيرها" },
+    { icon: Tv, title: "القنوات الإسلامية", description: "بث مباشر لقناة القرآن الكريم وقناة السنة النبوية" },
     { icon: Moon, title: "الوضع الليلي", description: "دعم كامل للوضع المظلم لراحة العين أثناء القراءة الليلية" },
   ];
 
