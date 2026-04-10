@@ -39,7 +39,7 @@ const DARK_SCREENS = [
   "/screenshots/page-24.jpg",   // القرآن الكريم
   "/screenshots/page-03.jpg",   // سورة الفاتحة
   "/screenshots/page-04.jpg",   // الأذكار
-  "/screenshots/page-05.jpg",   // السبحة الإلكترونية
+  "/screenshots/page-05.jpg",   // السبحة
   "/screenshots/page-25.jpg",   // العداد العالمي
   "/screenshots/page-11.jpg",   // صفحة المزيد
   "/screenshots/page-06.jpg",   // تحديد القبلة
@@ -62,7 +62,7 @@ const LIGHT_SCREENS = [
   "/screenshots/page-13.jpg",   // القرآن الكريم
   "/screenshots/page-14.jpg",   // سورة الفاتحة
   "/screenshots/page-15.jpg",   // الأذكار
-  "/screenshots/page-16.jpg",   // السبحة الإلكترونية
+  "/screenshots/page-16.jpg",   // السبحة
   "/screenshots/page-26.jpg",   // العداد العالمي
   "/screenshots/page-17.jpg",   // صفحة المزيد
   "/screenshots/page-18.jpg",   // تحديد القبلة
@@ -84,7 +84,7 @@ const SCREEN_LABELS = [
   "القرآن الكريم",
   "سورة الفاتحة",
   "الأذكار",
-  "السبحة الإلكترونية",
+  "السبحة",
   "العداد العالمي",
   "صفحة المزيد",
   "تحديد القبلة",
@@ -568,7 +568,7 @@ export default function Landing() {
     { icon: BookOpen, title: "القرآن الكريم", description: "تلاوات بأصوات أكثر من 50 قارئاً مع قارئ التدبر الذكي وتفسير الجلالين" },
     { icon: Clock, title: "مواقيت الصلاة", description: "مواقيت صلاة دقيقة بحسب موقعك الجغرافي مع أذان لكل صلاة" },
     { icon: Heart, title: "الأذكار والأدعية", description: "أذكار الصباح والمساء وأدعية يومية منتقاة من السنة النبوية الشريفة" },
-    { icon: Circle, title: "السبحة الإلكترونية", description: "سبحة ذكية تحسب الجولات تلقائياً مع خلفية المسجد الأقصى وأصوات خشوع هادئة" },
+    { icon: Circle, title: "السبحة", description: "سبحة ذكية تحسب الجولات تلقائياً مع خلفية المسجد الأقصى وأصوات خشوع هادئة" },
     { icon: Compass, title: "اتجاه القبلة", description: "تحديد اتجاه القبلة بدقة عالية باستخدام البوصلة والخرائط" },
     { icon: Hash, title: "أسماء الله الحسنى", description: "الأسماء الحسنى التسعة والتسعون مع شرح معنى كل اسم" },
     { icon: Radio, title: "إذاعات إسلامية", description: "مجموعة متنوعة من الإذاعات الإسلامية للقرآن والمحاضرات" },
