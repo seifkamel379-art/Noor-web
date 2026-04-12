@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- الصفحة الرئيسية -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- قسم المميزات -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#features</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- القرآن الكريم -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#quran</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- مواقيت الصلاة -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#prayer-times</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- الأذكار والأدعية -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#athkar</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- اتجاه القبلة -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#qibla</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- الأحاديث الشريفة -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#hadith</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- التاريخ الإسلامي -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#history</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- قصص الأنبياء -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#prophets</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- الاختبارات الإسلامية -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#quizzes</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- تقييمات المستخدمين -->
+  <url>
+    <loc>https://YOUR-DOMAIN.com/#reviews</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
