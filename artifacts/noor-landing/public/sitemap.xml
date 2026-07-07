@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <!-- الصفحة الرئيسية — الصفحة الوحيدة القابلة للفهرسة -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://noor-10.vercel.app/</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://noor-10.vercel.app/" />
     <image:image>
       <image:loc>https://noor-10.vercel.app/opengraph.jpg</image:loc>
       <image:title>تطبيق نور - رفيقك الإسلامي الشامل</image:title>
       <image:caption>تطبيق إسلامي مجاني للأندرويد — قرآن، صلاة، أذكار، وأكثر</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://noor-10.vercel.app/noor-logo.png</image:loc>
+      <image:loc>https://noor-10.vercel.app/noor-logo.webp</image:loc>
       <image:title>شعار تطبيق نور</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://noor-10.vercel.app/screenshots/page-01.jpg</image:loc>
+      <image:loc>https://noor-10.vercel.app/screenshots/page-01.webp</image:loc>
       <image:title>الشاشة الرئيسية - تطبيق نور</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://noor-10.vercel.app/screenshots/page-02.jpg</image:loc>
+      <image:loc>https://noor-10.vercel.app/screenshots/page-02.webp</image:loc>
       <image:title>المتتبع اليومي - تطبيق نور</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://noor-10.vercel.app/screenshots/page-03.jpg</image:loc>
+      <image:loc>https://noor-10.vercel.app/screenshots/page-03.webp</image:loc>
       <image:title>القرآن الكريم - تطبيق نور</image:title>
     </image:image>
-    <image:image>
-      <image:loc>https://noor-10.vercel.app/screenshots/page-12.jpg</image:loc>
-      <image:title>الوضع الفاتح - تطبيق نور</image:title>
-    </image:image>
   </url>
-
 </urlset>
