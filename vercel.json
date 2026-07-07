@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd ../.. && pnpm install && pnpm --filter @workspace/noor-landing run build",
+  "buildCommand": "pnpm install && pnpm --filter @workspace/noor-landing run build",
   "outputDirectory": "artifacts/noor-landing/dist",
-  "installCommand": "echo 'skip'",
+  "installCommand": "echo skip",
   "framework": null,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
