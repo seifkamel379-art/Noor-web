@@ -80,7 +80,7 @@ export default function Admin() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-            <img src="/noor-logo.png" alt="نور" className="w-10 h-10 rounded-xl object-cover" />
+            <img src="/noor-logo.webp" alt="نور" className="w-10 h-10 rounded-xl object-cover" />
           </div>
           <h1
             className="text-2xl font-black text-primary"

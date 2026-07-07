@@ -13,37 +13,37 @@
   "categories": ["religion", "lifestyle", "education"],
   "icons": [
     {
-      "src": "/noor-logo.png",
+      "src": "/noor-logo.webp",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/noor-logo.png",
+      "src": "/noor-logo.webp",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "/screenshots/page-01.jpg",
+      "src": "/screenshots/page-01.webp",
       "sizes": "1080x2400",
-      "type": "image/jpeg",
+      "type": "image/webp",
       "form_factor": "narrow",
       "label": "الشاشة الرئيسية"
     },
     {
-      "src": "/screenshots/page-02.jpg",
+      "src": "/screenshots/page-02.webp",
       "sizes": "1080x2400",
-      "type": "image/jpeg",
+      "type": "image/webp",
       "form_factor": "narrow",
       "label": "المتتبع اليومي"
     },
     {
-      "src": "/screenshots/page-03.jpg",
+      "src": "/screenshots/page-03.webp",
       "sizes": "1080x2400",
-      "type": "image/jpeg",
+      "type": "image/webp",
       "form_factor": "narrow",
       "label": "القرآن الكريم"
     }
@@ -54,7 +54,7 @@
       "short_name": "تحميل",
       "description": "تحميل تطبيق نور للأندرويد",
       "url": "/noor-app.apk",
-      "icons": [{ "src": "/noor-logo.png", "sizes": "512x512" }]
+      "icons": [{ "src": "/noor-logo.webp", "sizes": "512x512", "type": "image/webp" }]
     }
   ]
 }
