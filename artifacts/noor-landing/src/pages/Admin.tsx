@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getApkUrl, setApkUrl } from "@/lib/firebase";
-import { uploadApkToCloudinary } from "@/lib/cloudinary";
 import { useLocation } from "wouter";
 
 const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN as string | undefined;
@@ -15,21 +14,16 @@ export default function Admin() {
 
   // APK state
   const [currentUrl, setCurrentUrl] = useState("");
+  const [newUrl, setNewUrl] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Upload state
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!unlocked) return;
     setLoading(true);
     getApkUrl()
-      .then((url) => setCurrentUrl(url))
+      .then((url) => { setCurrentUrl(url); setNewUrl(url); })
       .catch(() => setCurrentUrl("/noor-app.apk"))
       .finally(() => setLoading(false));
   }, [unlocked]);
@@ -49,40 +43,31 @@ export default function Admin() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setSelectedFile(file);
-    setMsg(null);
-  };
-
-  const handleUpload = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedFile) return;
-
-    setUploading(true);
-    setUploadProgress(0);
-    setMsg(null);
-
+    const trimmed = newUrl.trim();
+    if (!trimmed) {
+      setMsg({ type: "error", text: "الرابط لا يمكن أن يكون فارغاً" });
+      return;
+    }
     try {
-      const downloadURL = await uploadApkToCloudinary(selectedFile, (percent) => {
-        setUploadProgress(percent);
-      });
-      await setApkUrl(downloadURL);
-      setCurrentUrl(downloadURL);
-      setSelectedFile(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      setMsg({ type: "success", text: "✅ تم رفع الـ APK وتحديث الرابط بنجاح!" });
-    } catch (err) {
-      console.error(err);
-      const reason = err instanceof Error ? err.message : "خطأ غير معروف";
-      setMsg({ type: "error", text: `❌ فشل الرفع: ${reason}` });
+      new URL(trimmed);
+    } catch {
+      setMsg({ type: "error", text: "الرابط غير صالح — تحقق منه وحاول مرة أخرى" });
+      return;
+    }
+    setSaving(true);
+    setMsg(null);
+    try {
+      await setApkUrl(trimmed);
+      setCurrentUrl(trimmed);
+      setMsg({ type: "success", text: "✅ تم تحديث رابط الـ APK بنجاح!" });
+    } catch {
+      setMsg({ type: "error", text: "❌ فشل الحفظ — تحقق من الاتصال بالإنترنت" });
     } finally {
-      setUploading(false);
-      setUploadProgress(0);
+      setSaving(false);
     }
   };
-
-  const fileSizeMB = selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(1) : null;
 
   return (
     <div
@@ -102,7 +87,7 @@ export default function Admin() {
             لوحة تحكم المسؤول
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            رفع نسخة جديدة من تطبيق نور (APK)
+            تغيير رابط تحميل تطبيق نور (APK)
           </p>
         </div>
 
@@ -120,6 +105,7 @@ export default function Admin() {
                 placeholder="••••••"
                 className="w-full rounded-xl border border-border bg-background px-4 py-3 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
                 autoFocus
+                autoComplete="current-password"
               />
               {pinError && (
                 <p className="text-center text-sm font-bold text-red-500">{pinError}</p>
@@ -133,109 +119,81 @@ export default function Admin() {
             </form>
           </div>
         ) : (
-          <div className="bg-card border border-card-border rounded-2xl p-6 shadow-lg flex flex-col gap-6">
+          <div className="bg-card border border-card-border rounded-2xl p-6 shadow-lg flex flex-col gap-5">
             {loading ? (
               <div className="text-center py-8 text-muted-foreground">جارٍ التحميل...</div>
             ) : (
-              <>
-                {/* Current APK */}
+              <form onSubmit={handleSave} className="flex flex-col gap-5">
+
+                {/* Current URL */}
                 <div>
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
-                    النسخة الحالية
+                    الرابط الحالي
                   </p>
                   <div className="bg-secondary/50 rounded-xl px-4 py-3 text-sm font-mono break-all text-foreground/70 border border-border">
                     {currentUrl || "لا يوجد رابط محفوظ"}
                   </div>
                 </div>
 
-                {/* Upload form */}
-                <form onSubmit={handleUpload} className="flex flex-col gap-4">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    رفع نسخة جديدة
-                  </p>
+                {/* How to get Google Drive link */}
+                <div className="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 text-sm text-foreground/80 flex flex-col gap-1">
+                  <p className="font-bold text-primary mb-1">📌 كيف تحصل على رابط Google Drive؟</p>
+                  <ol className="list-decimal list-inside space-y-1 text-xs">
+                    <li>ارفع ملف الـ APK على Google Drive</li>
+                    <li>كليك يمين على الملف ← <strong>مشاركة</strong> ← <strong>أي شخص لديه الرابط</strong></li>
+                    <li>انسخ الرابط والصقه هنا</li>
+                  </ol>
+                </div>
 
-                  {/* Drop zone */}
+                {/* New URL */}
+                <div>
+                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                    الرابط الجديد
+                  </label>
+                  <input
+                    type="url"
+                    value={newUrl}
+                    onChange={(e) => { setNewUrl(e.target.value); setMsg(null); }}
+                    placeholder="https://drive.google.com/..."
+                    className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+                    dir="ltr"
+                    disabled={saving}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Feedback */}
+                {msg && (
                   <div
-                    className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-colors ${
-                      selectedFile
-                        ? "border-primary/60 bg-primary/5"
-                        : "border-border hover:border-primary/40 hover:bg-secondary/30"
+                    className={`rounded-xl px-4 py-3 text-sm font-bold text-center ${
+                      msg.type === "success"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                        : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                     }`}
-                    onClick={() => fileInputRef.current?.click()}
                   >
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".apk,application/vnd.android.package-archive"
-                      onChange={handleFileChange}
-                      className="hidden"
-                      disabled={uploading}
-                    />
-                    {selectedFile ? (
-                      <div className="flex flex-col items-center gap-2">
-                        <span className="text-3xl">📦</span>
-                        <p className="font-bold text-foreground">{selectedFile.name}</p>
-                        <p className="text-sm text-muted-foreground">{fileSizeMB} MB</p>
-                        <p className="text-xs text-primary font-medium">اضغط لتغيير الملف</p>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-2">
-                        <span className="text-3xl">📂</span>
-                        <p className="font-semibold text-foreground">اضغط لاختيار ملف APK</p>
-                        <p className="text-sm text-muted-foreground">ملفات .apk فقط</p>
-                      </div>
-                    )}
+                    {msg.text}
                   </div>
+                )}
 
-                  {/* Progress bar */}
-                  {uploading && (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>جارٍ الرفع...</span>
-                        <span>{uploadProgress}%</span>
-                      </div>
-                      <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full transition-all duration-200"
-                          style={{ width: `${uploadProgress}%` }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Feedback */}
-                  {msg && (
-                    <div
-                      className={`rounded-xl px-4 py-3 text-sm font-bold text-center ${
-                        msg.type === "success"
-                          ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                          : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                      }`}
-                    >
-                      {msg.text}
-                    </div>
-                  )}
-
-                  {/* Buttons */}
-                  <div className="flex gap-3">
-                    <button
-                      type="submit"
-                      disabled={!selectedFile || uploading}
-                      className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      {uploading ? `جارٍ الرفع ${uploadProgress}%` : "رفع الـ APK"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => navigate("/")}
-                      disabled={uploading}
-                      className="px-5 py-3 rounded-xl border border-border bg-card text-foreground font-bold text-sm hover:bg-secondary transition-colors disabled:opacity-40"
-                    >
-                      رجوع
-                    </button>
-                  </div>
-                </form>
-              </>
+                {/* Buttons */}
+                <div className="flex gap-3">
+                  <button
+                    type="submit"
+                    disabled={saving || newUrl.trim() === currentUrl || !newUrl.trim()}
+                    className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {saving ? "جارٍ الحفظ..." : "حفظ الرابط"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/")}
+                    disabled={saving}
+                    className="px-5 py-3 rounded-xl border border-border bg-card text-foreground font-bold text-sm hover:bg-secondary transition-colors"
+                  >
+                    رجوع
+                  </button>
+                </div>
+              </form>
             )}
           </div>
         )}
