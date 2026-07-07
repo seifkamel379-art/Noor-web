@@ -126,7 +126,7 @@ function ReviewAvatar({ name }: { name: string }) {
 const DARK_SCREENS = [
   "/screenshots/page-01.webp","/screenshots/page-02.webp","/screenshots/page-24.webp",
   "/screenshots/page-03.webp","/screenshots/page-04.webp","/screenshots/page-05.webp",
-  "/screenshots/page-25.webp","/screenshots/page-11.webp","/screenshots/page-06.webp",
+  "/screenshots/page-25-stats.webp","/screenshots/page-11.webp","/screenshots/page-06.webp",
   "/screenshots/page-07.webp","/screenshots/page-08.webp","/screenshots/page-09.webp",
   "/screenshots/page-10.webp","/screenshots/page-27.webp","/screenshots/page-29.webp",
   "/screenshots/page-31.webp","/screenshots/page-33.webp","/screenshots/page-35.webp",
@@ -135,7 +135,7 @@ const DARK_SCREENS = [
 const LIGHT_SCREENS = [
   "/screenshots/page-12.webp","/screenshots/page-23.webp","/screenshots/page-13.webp",
   "/screenshots/page-14.webp","/screenshots/page-15.webp","/screenshots/page-16.webp",
-  "/screenshots/page-26.webp","/screenshots/page-17.webp","/screenshots/page-18.webp",
+  "/screenshots/page-26-stats.webp","/screenshots/page-17.webp","/screenshots/page-18.webp",
   "/screenshots/page-19.webp","/screenshots/page-20.webp","/screenshots/page-21.webp",
   "/screenshots/page-22.webp","/screenshots/page-28.webp","/screenshots/page-30.webp",
   "/screenshots/page-32.webp","/screenshots/page-34.webp","/screenshots/page-36.webp",
