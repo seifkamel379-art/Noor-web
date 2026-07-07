@@ -558,6 +558,8 @@ export default function Landing() {
         </div>
       </nav>
 
+      <main id="main-content">
+
       {/* ══════════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════════ */}
@@ -590,7 +592,7 @@ export default function Landing() {
               animate={{ scale:[1,1.3,1.5], opacity:[0.6,0.2,0] }} transition={{ duration:2.5, repeat:Infinity, ease:"easeOut" }} />
             <motion.div className="absolute inset-0 rounded-3xl border-2 border-primary/20"
               animate={{ scale:[1,1.5,1.8], opacity:[0.4,0.1,0] }} transition={{ duration:2.5, repeat:Infinity, ease:"easeOut", delay:0.5 }} />
-            <img src="/noor-logo.png" alt="شعار نور" className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-2xl" />
+            <img src="/noor-logo.png" alt="شعار نور" className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-2xl" fetchPriority="high" loading="eager" />
           </motion.div>
 
           {/* Title */}
@@ -874,6 +876,8 @@ export default function Landing() {
           </div>
         </FadeUp>
       </section>
+
+      </main>
 
       {/* ══════════════════════════════════════════════════
           FOOTER

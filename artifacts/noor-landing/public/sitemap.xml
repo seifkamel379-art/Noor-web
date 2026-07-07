@@ -4,7 +4,7 @@
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- الصفحة الرئيسية -->
+  <!-- الصفحة الرئيسية — الصفحة الوحيدة القابلة للفهرسة -->
   <url>
     <loc>https://noor-10.vercel.app/</loc>
     <lastmod>2026-07-07</lastmod>
@@ -20,52 +20,21 @@
       <image:loc>https://noor-10.vercel.app/noor-logo.png</image:loc>
       <image:title>شعار تطبيق نور</image:title>
     </image:image>
-  </url>
-
-  <!-- قسم المميزات -->
-  <url>
-    <loc>https://noor-10.vercel.app/#features</loc>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- ليه نور؟ -->
-  <url>
-    <loc>https://noor-10.vercel.app/#why-noor</loc>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- تقييمات المستخدمين -->
-  <url>
-    <loc>https://noor-10.vercel.app/#reviews</loc>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Screenshots -->
-  <url>
-    <loc>https://noor-10.vercel.app/screenshots/page-01.jpg</loc>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
     <image:image>
       <image:loc>https://noor-10.vercel.app/screenshots/page-01.jpg</image:loc>
       <image:title>الشاشة الرئيسية - تطبيق نور</image:title>
     </image:image>
-  </url>
-
-  <url>
-    <loc>https://noor-10.vercel.app/screenshots/page-02.jpg</loc>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
     <image:image>
       <image:loc>https://noor-10.vercel.app/screenshots/page-02.jpg</image:loc>
       <image:title>المتتبع اليومي - تطبيق نور</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://noor-10.vercel.app/screenshots/page-03.jpg</image:loc>
+      <image:title>القرآن الكريم - تطبيق نور</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://noor-10.vercel.app/screenshots/page-12.jpg</image:loc>
+      <image:title>الوضع الفاتح - تطبيق نور</image:title>
     </image:image>
   </url>
 
