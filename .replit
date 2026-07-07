@@ -53,6 +53,8 @@ channel = "stable-25_05"
 
 [userenv.shared]
 VITE_FIREBASE_API_KEY = "AIzaSyAEHhrRn5Urh_2pBtDKivtbiaqyG8huHzM"
+VITE_CLOUDINARY_CLOUD_NAME = "glwhluz1"
+VITE_CLOUDINARY_UPLOAD_PRESET = "Seifoo"
 
 [[ports]]
 localPort = 8080

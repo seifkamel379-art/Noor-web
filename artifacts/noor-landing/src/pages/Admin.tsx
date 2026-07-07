@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { getApkUrl, setApkUrl, uploadApkFile } from "@/lib/firebase";
+import { getApkUrl, setApkUrl } from "@/lib/firebase";
+import { uploadApkToCloudinary } from "@/lib/cloudinary";
 import { useLocation } from "wouter";
 
 const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN as string | undefined;
@@ -63,7 +64,7 @@ export default function Admin() {
     setMsg(null);
 
     try {
-      const downloadURL = await uploadApkFile(selectedFile, (percent) => {
+      const downloadURL = await uploadApkToCloudinary(selectedFile, (percent) => {
         setUploadProgress(percent);
       });
       await setApkUrl(downloadURL);

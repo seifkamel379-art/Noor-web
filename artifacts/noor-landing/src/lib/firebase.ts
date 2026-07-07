@@ -15,12 +15,6 @@ import {
   serverTimestamp,
   Timestamp,
 } from "firebase/firestore";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -34,7 +28,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
 export interface Review {
   id: string;
@@ -145,29 +138,3 @@ export async function setApkUrl(url: string): Promise<void> {
   await setDoc(docRef, { url, updatedAt: serverTimestamp() }, { merge: true });
 }
 
-export async function uploadApkFile(
-  file: File,
-  onProgress?: (percent: number) => void,
-): Promise<string> {
-  const storageRef = ref(storage, "apk/noor-app.apk");
-  const uploadTask = uploadBytesResumable(storageRef, file, {
-    contentType: "application/vnd.android.package-archive",
-  });
-
-  return new Promise((resolve, reject) => {
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-        );
-        onProgress?.(percent);
-      },
-      (error) => reject(error),
-      async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        resolve(downloadURL);
-      },
-    );
-  });
-}
