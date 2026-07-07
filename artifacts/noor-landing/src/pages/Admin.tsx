@@ -137,14 +137,21 @@ export default function Admin() {
                   </div>
                 </div>
 
-                {/* How to get Google Drive link */}
+                {/* How to get GitHub Release link */}
                 <div className="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 text-sm text-foreground/80 flex flex-col gap-1">
-                  <p className="font-bold text-primary mb-1">📌 كيف تحصل على رابط Google Drive؟</p>
+                  <p className="font-bold text-primary mb-1">📌 كيف ترفع الـ APK على GitHub Releases؟</p>
                   <ol className="list-decimal list-inside space-y-1 text-xs">
-                    <li>ارفع ملف الـ APK على Google Drive</li>
-                    <li>كليك يمين على الملف ← <strong>مشاركة</strong> ← <strong>أي شخص لديه الرابط</strong></li>
-                    <li>انسخ الرابط والصقه هنا</li>
+                    <li>افتح الريبو على GitHub</li>
+                    <li>اضغط على <strong>Releases</strong> من القائمة الجانبية</li>
+                    <li>اضغط <strong>Draft a new release</strong></li>
+                    <li>اختار أو أنشئ <strong>Tag</strong> (مثلاً: <code className="bg-primary/10 px-1 rounded">v1.0.0</code>)</li>
+                    <li>ارفع ملف الـ APK في قسم <strong>Attach binaries</strong></li>
+                    <li>اضغط <strong>Publish release</strong></li>
+                    <li>انسخ رابط الملف المباشر والصقه هنا</li>
                   </ol>
+                  <p className="text-xs text-muted-foreground mt-2 font-mono bg-secondary/50 rounded p-2 break-all">
+                    مثال: https://github.com/seifkamel379-art/Noor-web/releases/download/v1.0.0/noor-app.apk
+                  </p>
                 </div>
 
                 {/* New URL */}
@@ -156,7 +163,7 @@ export default function Admin() {
                     type="url"
                     value={newUrl}
                     onChange={(e) => { setNewUrl(e.target.value); setMsg(null); }}
-                    placeholder="https://drive.google.com/..."
+                    placeholder="https://github.com/.../releases/download/v1.0.0/noor-app.apk"
                     className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
                     dir="ltr"
                     disabled={saving}
