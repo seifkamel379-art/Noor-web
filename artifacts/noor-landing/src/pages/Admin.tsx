@@ -62,8 +62,10 @@ export default function Admin() {
       await setApkUrl(trimmed);
       setCurrentUrl(trimmed);
       setMsg({ type: "success", text: "✅ تم تحديث رابط الـ APK بنجاح!" });
-    } catch {
-      setMsg({ type: "error", text: "❌ فشل الحفظ — تحقق من الاتصال بالإنترنت" });
+    } catch (err) {
+      console.error("[Admin] setApkUrl failed:", err);
+      const reason = err instanceof Error ? err.message : String(err);
+      setMsg({ type: "error", text: `❌ فشل الحفظ: ${reason}` });
     } finally {
       setSaving(false);
     }
