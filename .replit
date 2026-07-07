@@ -39,7 +39,7 @@ args = "PORT=23378 BASE_PATH=/ pnpm --filter @workspace/noor-landing run dev"
 waitForPort = 23378
 
 [agent]
-stack = "PNPM_WORKSPACE"
+stack = "BEST_EFFORT_FALLBACK"
 expertMode = true
 
 [postMerge]
