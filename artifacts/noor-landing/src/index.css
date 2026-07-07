@@ -268,6 +268,15 @@ html {
   100% { left: 150%; }
 }
 
+/* ── Text-spacing resilience ──────────────────────────────────
+   Ensures the page doesn't break when users/AT force
+   line-height:1.5 / letter-spacing:0.12em / word-spacing:0.16em
+   (Lighthouse "Text spacing" audit) */
+* {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 /* Section divider ornament */
 .ornament-divider::before,
 .ornament-divider::after {

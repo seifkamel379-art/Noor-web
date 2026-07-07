@@ -124,22 +124,22 @@ function ReviewAvatar({ name }: { name: string }) {
 
 /* ── Screen data ── */
 const DARK_SCREENS = [
-  "/screenshots/page-01.jpg","/screenshots/page-02.jpg","/screenshots/page-24.jpg",
-  "/screenshots/page-03.jpg","/screenshots/page-04.jpg","/screenshots/page-05.jpg",
-  "/screenshots/page-25.jpg","/screenshots/page-11.jpg","/screenshots/page-06.jpg",
-  "/screenshots/page-07.jpg","/screenshots/page-08.jpg","/screenshots/page-09.jpg",
-  "/screenshots/page-10.jpg","/screenshots/page-27.jpg","/screenshots/page-29.jpg",
-  "/screenshots/page-31.jpg","/screenshots/page-33.jpg","/screenshots/page-35.jpg",
-  "/screenshots/page-37.jpg",
+  "/screenshots/page-01.webp","/screenshots/page-02.webp","/screenshots/page-24.webp",
+  "/screenshots/page-03.webp","/screenshots/page-04.webp","/screenshots/page-05.webp",
+  "/screenshots/page-25.webp","/screenshots/page-11.webp","/screenshots/page-06.webp",
+  "/screenshots/page-07.webp","/screenshots/page-08.webp","/screenshots/page-09.webp",
+  "/screenshots/page-10.webp","/screenshots/page-27.webp","/screenshots/page-29.webp",
+  "/screenshots/page-31.webp","/screenshots/page-33.webp","/screenshots/page-35.webp",
+  "/screenshots/page-37.webp",
 ];
 const LIGHT_SCREENS = [
-  "/screenshots/page-12.jpg","/screenshots/page-23.jpg","/screenshots/page-13.jpg",
-  "/screenshots/page-14.jpg","/screenshots/page-15.jpg","/screenshots/page-16.jpg",
-  "/screenshots/page-26.jpg","/screenshots/page-17.jpg","/screenshots/page-18.jpg",
-  "/screenshots/page-19.jpg","/screenshots/page-20.jpg","/screenshots/page-21.jpg",
-  "/screenshots/page-22.jpg","/screenshots/page-28.jpg","/screenshots/page-30.jpg",
-  "/screenshots/page-32.jpg","/screenshots/page-34.jpg","/screenshots/page-36.jpg",
-  "/screenshots/page-38.jpg",
+  "/screenshots/page-12.webp","/screenshots/page-23.webp","/screenshots/page-13.webp",
+  "/screenshots/page-14.webp","/screenshots/page-15.webp","/screenshots/page-16.webp",
+  "/screenshots/page-26.webp","/screenshots/page-17.webp","/screenshots/page-18.webp",
+  "/screenshots/page-19.webp","/screenshots/page-20.webp","/screenshots/page-21.webp",
+  "/screenshots/page-22.webp","/screenshots/page-28.webp","/screenshots/page-30.webp",
+  "/screenshots/page-32.webp","/screenshots/page-34.webp","/screenshots/page-36.webp",
+  "/screenshots/page-38.webp",
 ];
 const SCREEN_LABELS = [
   "الصورة الرئيسية","المتتبع اليومي","القرآن الكريم","سورة الفاتحة",
@@ -156,9 +156,11 @@ function StarRating({ rating, onChange, interactive = false, size = "md" }: {
   const [hovered, setHovered] = useState(0);
   const sz = size === "sm" ? "w-4 h-4" : "w-5 h-5";
   return (
-    <div className="flex gap-0.5" style={{ direction: "ltr" }}>
+    <div className="flex gap-0.5" role={interactive ? "radiogroup" : undefined} aria-label={interactive ? "التقييم" : undefined} style={{ direction: "ltr" }}>
       {[1,2,3,4,5].map((s) => (
         <button key={s} type="button"
+          aria-label={`${s} ${s === 1 ? "نجمة" : "نجوم"}`}
+          aria-pressed={interactive ? s === rating : undefined}
           onClick={() => interactive && onChange && onChange(s)}
           onMouseEnter={() => interactive && setHovered(s)}
           onMouseLeave={() => interactive && setHovered(0)}
@@ -245,7 +247,7 @@ function PhoneMockup({ dark }: { dark: boolean }) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="relative flex items-center gap-3">
-        <button onClick={() => nav(1)} className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"><ChevronRight className="w-4 h-4 text-primary" /></button>
+        <button onClick={() => nav(1)} aria-label="الشاشة السابقة" className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"><ChevronRight className="w-4 h-4 text-primary" /></button>
         <div className="relative">
           <div className="absolute inset-0 rounded-[44px] bg-primary/20 blur-2xl scale-95 pointer-events-none" />
           <div className="relative w-[230px] h-[470px] rounded-[40px] overflow-hidden" style={{
@@ -262,11 +264,11 @@ function PhoneMockup({ dark }: { dark: boolean }) {
           </div>
           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-1 rounded-full" style={{ backgroundColor: dark?"rgba(255,255,255,0.2)":"rgba(0,0,0,0.15)" }} />
         </div>
-        <button onClick={() => nav(-1)} className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"><ChevronLeft className="w-4 h-4 text-primary" /></button>
+        <button onClick={() => nav(-1)} aria-label="الشاشة التالية" className="w-9 h-9 rounded-full bg-card border border-card-border flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 transition-all shadow-sm"><ChevronLeft className="w-4 h-4 text-primary" /></button>
       </div>
       <div className="flex gap-1.5 flex-wrap justify-center max-w-[200px]">
         {screens.map((_,i) => (
-          <button key={i} onClick={() => goTo(i)} className="transition-all rounded-full" style={{ width:i===currentIndex?"20px":"6px", height:"6px", backgroundColor:i===currentIndex?"hsl(var(--primary))":"hsl(var(--border))" }} />
+          <button key={i} onClick={() => goTo(i)} aria-label={`الانتقال إلى الشاشة ${i+1}`} aria-current={i===currentIndex?"true":undefined} className="transition-all rounded-full" style={{ width:i===currentIndex?"20px":"6px", height:"6px", backgroundColor:i===currentIndex?"hsl(var(--primary))":"hsl(var(--border))" }} />
         ))}
       </div>
       <p className="text-xs text-muted-foreground">{currentIndex+1} / {screens.length}</p>
@@ -299,7 +301,7 @@ function EditModal({ review, onSave, onClose }: { review: Review; onSave:(u:Revi
         initial={{ scale:0.95, opacity:0 }} animate={{ scale:1, opacity:1 }}>
         <div className="flex items-center justify-between mb-5">
           <h3 className="text-lg font-bold">تعديل التقييم</h3>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"><X className="w-4 h-4" /></button>
+          <button onClick={onClose} aria-label="إغلاق" className="w-8 h-8 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"><X className="w-4 h-4" /></button>
         </div>
         <form onSubmit={handleSave} className="space-y-4">
           <div><label className="block text-sm font-semibold mb-2">الاسم *</label>
@@ -351,8 +353,8 @@ function ReviewCard({ review, ownToken, onUpdated, onDeleted }: {
               <div className="font-bold text-foreground truncate">{review.name}</div>
               {ownToken && (
                 <div className="flex gap-1 shrink-0">
-                  <button onClick={() => setEditing(true)} className="w-7 h-7 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors" title="تعديل"><Pencil className="w-3.5 h-3.5 text-primary" /></button>
-                  <button onClick={() => setConfirmDelete(true)} className="w-7 h-7 rounded-lg bg-destructive/10 hover:bg-destructive/20 flex items-center justify-center transition-colors" title="حذف"><Trash2 className="w-3.5 h-3.5 text-destructive" /></button>
+                  <button onClick={() => setEditing(true)} aria-label="تعديل التقييم" className="w-7 h-7 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors" title="تعديل"><Pencil className="w-3.5 h-3.5 text-primary" /></button>
+                  <button onClick={() => setConfirmDelete(true)} aria-label="حذف التقييم" className="w-7 h-7 rounded-lg bg-destructive/10 hover:bg-destructive/20 flex items-center justify-center transition-colors" title="حذف"><Trash2 className="w-3.5 h-3.5 text-destructive" /></button>
                 </div>
               )}
             </div>
@@ -543,7 +545,7 @@ export default function Landing() {
       <nav className="sticky top-0.5 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer select-none" onClick={handleLogoClick}>
-            <img src="/noor-logo.png" alt="نور" className="w-9 h-9 rounded-xl object-cover" />
+            <img src="/noor-logo.webp" alt="نور" className="w-9 h-9 rounded-xl object-cover" />
             <span className="font-bold text-xl text-primary" style={{ fontFamily:"'Cairo',sans-serif" }}>تطبيق نور</span>
           </div>
           <div className="flex items-center gap-3">
@@ -551,7 +553,7 @@ export default function Landing() {
               className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold btn-shimmer hover:opacity-90 transition-opacity">
               <Download className="w-4 h-4" />تحميل التطبيق
             </a>
-            <button onClick={toggleDark} className="w-9 h-9 rounded-xl bg-card border border-card-border flex items-center justify-center hover:bg-secondary transition-colors">
+            <button onClick={toggleDark} aria-label={dark ? "تفعيل الوضع النهاري" : "تفعيل الوضع الليلي"} className="w-9 h-9 rounded-xl bg-card border border-card-border flex items-center justify-center hover:bg-secondary transition-colors">
               {dark ? <Sun className="w-4 h-4 text-primary" /> : <Moon className="w-4 h-4 text-primary" />}
             </button>
           </div>
@@ -592,7 +594,7 @@ export default function Landing() {
               animate={{ scale:[1,1.3,1.5], opacity:[0.6,0.2,0] }} transition={{ duration:2.5, repeat:Infinity, ease:"easeOut" }} />
             <motion.div className="absolute inset-0 rounded-3xl border-2 border-primary/20"
               animate={{ scale:[1,1.5,1.8], opacity:[0.4,0.1,0] }} transition={{ duration:2.5, repeat:Infinity, ease:"easeOut", delay:0.5 }} />
-            <img src="/noor-logo.png" alt="شعار نور" className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-2xl" fetchPriority="high" loading="eager" />
+            <img src="/noor-logo.webp" alt="شعار نور" className="relative w-28 h-28 md:w-36 md:h-36 rounded-3xl object-cover shadow-2xl" fetchPriority="high" loading="eager" />
           </motion.div>
 
           {/* Title */}
@@ -701,7 +703,7 @@ export default function Landing() {
                 <div className="p-4 md:p-5 font-bold text-sm text-muted-foreground flex items-center justify-center">الميزة</div>
                 <div className="p-4 md:p-5 border-x border-card-border text-center">
                   <div className="flex flex-col items-center gap-2">
-                    <img src="/noor-logo.png" alt="نور" className="w-10 h-10 rounded-xl object-cover shadow-md" />
+                    <img src="/noor-logo.webp" alt="نور" className="w-10 h-10 rounded-xl object-cover shadow-md" />
                     <span className="font-black text-primary text-base">نور</span>
                   </div>
                 </div>
@@ -887,7 +889,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 text-center relative">
           <FadeIn>
             <div className="flex items-center justify-center gap-3 mb-3">
-              <img src="/noor-logo.png" alt="نور" className="w-10 h-10 rounded-xl object-cover shadow-md" />
+              <img src="/noor-logo.webp" alt="نور" className="w-10 h-10 rounded-xl object-cover shadow-md" />
               <span className="font-black text-xl text-primary" style={{ fontFamily:"'Cairo',sans-serif" }}>تطبيق نور</span>
             </div>
             <p className="text-muted-foreground text-sm mb-8">رفيقك الإسلامي الشامل • القرآن • الصلاة • الأذكار</p>
