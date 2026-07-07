@@ -25,7 +25,13 @@ export async function uploadApkToCloudinary(
         const data = JSON.parse(xhr.responseText);
         resolve(data.secure_url as string);
       } else {
-        reject(new Error(`Cloudinary error: ${xhr.status} — ${xhr.responseText}`));
+        let msg = `Cloudinary error ${xhr.status}`;
+        try {
+          const err = JSON.parse(xhr.responseText);
+          msg = err?.error?.message ?? msg;
+        } catch { /* ignore parse error */ }
+        console.error("[Cloudinary] upload failed:", xhr.status, xhr.responseText);
+        reject(new Error(msg));
       }
     });
 

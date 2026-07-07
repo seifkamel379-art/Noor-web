@@ -74,7 +74,8 @@ export default function Admin() {
       setMsg({ type: "success", text: "✅ تم رفع الـ APK وتحديث الرابط بنجاح!" });
     } catch (err) {
       console.error(err);
-      setMsg({ type: "error", text: "❌ فشل الرفع — تأكد من إعدادات Firebase Storage وحاول مجدداً" });
+      const reason = err instanceof Error ? err.message : "خطأ غير معروف";
+      setMsg({ type: "error", text: `❌ فشل الرفع: ${reason}` });
     } finally {
       setUploading(false);
       setUploadProgress(0);
