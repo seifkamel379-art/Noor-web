@@ -1,0 +1,13 @@
+[build]
+  command = "pnpm install && pnpm --filter @workspace/noor-landing run build"
+  publish = "artifacts/noor-landing/dist"
+
+[build.environment]
+  PORT = "3000"
+  BASE_PATH = "/"
+  NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
