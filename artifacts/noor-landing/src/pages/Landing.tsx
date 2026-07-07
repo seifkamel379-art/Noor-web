@@ -175,29 +175,46 @@ function StarRating({ rating, onChange, interactive = false, size = "md" }: {
 function FeatureCard({ icon: Icon, title, description, bullets }: {
   icon: React.ElementType; title: string; description: string; bullets?: string[];
 }) {
+  const [open, setOpen] = useState(false);
   return (
     <motion.div variants={cardVariant}
-      className="group flex flex-col p-5 rounded-2xl bg-card border border-card-border
+      className="group flex items-start gap-4 p-4 rounded-2xl bg-card border border-card-border
         hover:border-primary/50 transition-all duration-300
-        hover:shadow-[0_8px_32px_-4px_hsl(var(--primary)/0.18)] hover:-translate-y-1.5 cursor-default">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0
-          group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-          <Icon className="w-5 h-5 text-primary" />
-        </div>
-        <h3 className="font-bold text-base text-foreground leading-tight">{title}</h3>
+        hover:shadow-[0_8px_32px_-4px_hsl(var(--primary)/0.18)] hover:-translate-y-1 cursor-default">
+      {/* Icon */}
+      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5
+        group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+        <Icon className="w-5 h-5 text-primary" />
       </div>
-      <p className="text-muted-foreground text-sm leading-relaxed mb-3">{description}</p>
-      {bullets && bullets.length > 0 && (
-        <ul className="space-y-1.5 mt-auto border-t border-border/50 pt-3">
-          {bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-2 text-xs text-foreground/75">
-              <span className="text-primary mt-0.5 shrink-0 font-black">✦</span>
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="font-bold text-sm text-foreground leading-snug">{title}</h3>
+          {bullets && bullets.length > 0 && (
+            <button onClick={() => setOpen(o => !o)}
+              className="shrink-0 text-primary/60 hover:text-primary transition-colors text-xs font-bold leading-none"
+              title={open ? "إخفاء التفاصيل" : "عرض التفاصيل"}>
+              {open ? "▲" : "▼"}
+            </button>
+          )}
+        </div>
+        <p className="text-muted-foreground text-xs leading-relaxed mt-1">{description}</p>
+        <AnimatePresence>
+          {open && bullets && bullets.length > 0 && (
+            <motion.ul
+              initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="overflow-hidden mt-2 space-y-1 border-t border-border/40 pt-2">
+              {bullets.map((b, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-xs text-foreground/70">
+                  <span className="text-primary shrink-0 font-black mt-0.5">✦</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.div>
   );
 }
@@ -646,7 +663,7 @@ export default function Landing() {
               مسجد وراديو وتليفزيون في الجيب — كل ده مساحته ٣٠ ميجا بس 🤍
             </p>
           </FadeUp>
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {features.map((f) => (
               <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} bullets={f.bullets} />
             ))}
