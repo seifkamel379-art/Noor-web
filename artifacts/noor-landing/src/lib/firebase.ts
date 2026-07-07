@@ -121,3 +121,19 @@ export async function incrementDownloadCount(): Promise<void> {
   await setDoc(docRef, { count: increment(1) }, { merge: true });
   console.log("[Noor] incrementDownloadCount succeeded");
 }
+
+export async function getApkUrl(): Promise<string> {
+  try {
+    const docRef = doc(db, "app_config", "apk");
+    const snapshot = await getDoc(docRef);
+    if (!snapshot.exists()) return "/noor-app.apk";
+    return snapshot.data().url ?? "/noor-app.apk";
+  } catch {
+    return "/noor-app.apk";
+  }
+}
+
+export async function setApkUrl(url: string): Promise<void> {
+  const docRef = doc(db, "app_config", "apk");
+  await setDoc(docRef, { url, updatedAt: serverTimestamp() }, { merge: true });
+}

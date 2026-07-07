@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "wouter";
 import { Star, Download, Moon, Sun, BookOpen, Clock, Compass, Radio, Hash, Heart, Circle, ChevronLeft, ChevronRight, Pencil, Trash2, X, Check, Tv, Scroll, Landmark, Users, GraduationCap, BookMarked } from "lucide-react";
 import {
   type Review,
@@ -8,6 +9,7 @@ import {
   deleteReview,
   getDownloadCount,
   incrementDownloadCount,
+  getApkUrl,
 } from "@/lib/firebase";
 
 const TOKENS_KEY = "noor-review-tokens";
@@ -470,6 +472,7 @@ function ReviewCard({
 }
 
 export default function Landing() {
+  const [, navigate] = useLocation();
   const [dark, setDark] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
@@ -482,6 +485,9 @@ export default function Landing() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [apkUrl, setApkUrl] = useState("/noor-app.apk");
+  const logoClickCount = useRef(0);
+  const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("noor-dark");
@@ -505,6 +511,23 @@ export default function Landing() {
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    getApkUrl().then(setApkUrl).catch(console.error);
+  }, []);
+
+  const handleLogoClick = () => {
+    logoClickCount.current += 1;
+    if (logoClickTimer.current) clearTimeout(logoClickTimer.current);
+    if (logoClickCount.current >= 10) {
+      logoClickCount.current = 0;
+      navigate("/admin");
+      return;
+    }
+    logoClickTimer.current = setTimeout(() => {
+      logoClickCount.current = 0;
+    }, 3000);
+  };
+
   const toggleDark = () => {
     const next = !dark;
     setDark(next);
@@ -515,7 +538,7 @@ export default function Landing() {
 
   const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const url = "/noor-app.apk";
+    const url = apkUrl;
     incrementDownloadCount()
       .then(() => {
         setDownloadCount(c => c + 1);
@@ -592,13 +615,17 @@ export default function Landing() {
       {/* Navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div
+            className="flex items-center gap-3 cursor-pointer select-none"
+            onClick={handleLogoClick}
+            aria-label="تطبيق نور"
+          >
             <img src="/noor-logo.png" alt="نور" className="w-9 h-9 rounded-xl object-cover" />
             <span className="font-bold text-xl text-primary" style={{ fontFamily: "'Cairo', sans-serif" }}>تطبيق نور</span>
           </div>
           <div className="flex items-center gap-3">
             <a
-              href="/noor-app.apk"
+              href={apkUrl}
               download="noor-app.apk"
               onClick={handleDownload}
               className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold btn-shimmer hover:opacity-90 transition-opacity"
@@ -649,7 +676,7 @@ export default function Landing() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full">
             <a
-              href="/noor-app.apk"
+              href={apkUrl}
               download="noor-app.apk"
               type="application/vnd.android.package-archive"
               onClick={handleDownload}
