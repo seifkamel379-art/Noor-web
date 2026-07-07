@@ -127,14 +127,26 @@ function StarRating({ rating, onChange, interactive = false }: { rating: number;
   );
 }
 
-function FeatureCard({ icon: Icon, title, description }: { icon: React.ElementType; title: string; description: string }) {
+function FeatureCard({ icon: Icon, title, description, bullets }: { icon: React.ElementType; title: string; description: string; bullets?: string[] }) {
   return (
-    <div className="group flex flex-col items-center text-center p-6 rounded-2xl bg-card border border-card-border hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-      <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-        <Icon className="w-7 h-7 text-primary" />
+    <div className="group flex flex-col p-5 rounded-2xl bg-card border border-card-border hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+          <Icon className="w-5 h-5 text-primary" />
+        </div>
+        <h3 className="font-bold text-base text-foreground leading-tight">{title}</h3>
       </div>
-      <h3 className="font-bold text-lg text-foreground mb-2">{title}</h3>
-      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+      <p className="text-muted-foreground text-sm leading-relaxed mb-3">{description}</p>
+      {bullets && bullets.length > 0 && (
+        <ul className="space-y-1.5 mt-auto">
+          {bullets.map((b, i) => (
+            <li key={i} className="flex items-start gap-2 text-xs text-foreground/75">
+              <span className="text-primary mt-0.5 shrink-0">✦</span>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -588,20 +600,156 @@ export default function Landing() {
   };
 
   const features = [
-    { icon: BookOpen, title: "القرآن الكريم", description: "تلاوات بأصوات أكثر من 50 قارئاً مع قارئ التدبر الذكي وتفسير الجلالين" },
-    { icon: Clock, title: "مواقيت الصلاة", description: "مواقيت صلاة دقيقة بحسب موقعك الجغرافي مع أذان لكل صلاة" },
-    { icon: Heart, title: "الأذكار والأدعية", description: "أذكار الصباح والمساء وأدعية يومية منتقاة من السنة النبوية الشريفة" },
-    { icon: Circle, title: "السبحة", description: "سبحة ذكية تحسب الجولات تلقائياً مع خلفية المسجد الأقصى وأصوات خشوع هادئة" },
-    { icon: Compass, title: "اتجاه القبلة", description: "تحديد اتجاه القبلة بدقة عالية باستخدام البوصلة والخرائط" },
-    { icon: Hash, title: "أسماء الله الحسنى", description: "الأسماء الحسنى التسعة والتسعون مع شرح معنى كل اسم" },
-    { icon: Radio, title: "إذاعات إسلامية", description: "مجموعة متنوعة من الإذاعات الإسلامية للقرآن والمحاضرات" },
-    { icon: Scroll, title: "الأحاديث الشريفة", description: "أحاديث النبي ﷺ من كبار المصادر: البخاري، مسلم، الترمذي، وغيرها" },
-    { icon: Landmark, title: "التاريخ الإسلامي", description: "142 حدثاً محقّقاً من السيرة النبوية وحتى الدولة العثمانية" },
-    { icon: Users, title: "قصص الأنبياء", description: "قصص الأنبياء لابن كثير بتحقيق د. مصطفى عبد الواحد" },
-    { icon: BookMarked, title: "سنن النبي ﷺ", description: "اقتداء بهدي المصطفى ﷺ في يومك — سنن الاستيقاظ والوضوء والطعام وأكثر" },
-    { icon: GraduationCap, title: "الاختبارات الإسلامية", description: "5820 سؤالاً في 6 تخصصات شرعية: العقيدة، التفسير، الفقه، الحديث، وغيرها" },
-    { icon: Tv, title: "القنوات الإسلامية", description: "بث مباشر لقناة القرآن الكريم وقناة السنة النبوية" },
-    { icon: Moon, title: "الوضع الليلي", description: "دعم كامل للوضع المظلم لراحة العين أثناء القراءة الليلية" },
+    {
+      icon: Clock,
+      title: "مواقيت الصلاة",
+      description: "عداد تنازلي بالثانية مع مكتبة فلكية حقيقية، وضبط التقويم الهجري بيدك يوماً أو يومين.",
+      bullets: [
+        "٣ إشعارات لكل صلاة: قبل ٢٠ دقيقة، قبل ١٠ دقائق، وعند الأذان بالضبط",
+        "إشعار يومي إضافي: آية أو حديث أو ذكر على ساعة تختارها",
+        "حارس الصلاة 🛡️ — شاشة كاملة فوق كل شيء، زر واحد فقط: «أقسم أني صليت»",
+      ],
+    },
+    {
+      icon: BookOpen,
+      title: "القرآن الكريم",
+      description: "القرآن كاملاً بالرسم العثماني مع ٢٤ قارئاً، بحث ذكي يتجاهل التشكيل، وعلامات حفظ.",
+      bullets: [
+        "٤ تبويبات: بالسورة / بالجزء / بالحزب / بحث",
+        "ضغطة طويلة على أي آية ← تفسير الميسر فوراً",
+        "اضغط على أي كلمة ← تُشغَّل صوتياً كلمة واحدة بالضبط!",
+        "تبويب مصاحف: تجويد / ورش / شمرلي / حفص — PDF للتنزيل",
+      ],
+    },
+    {
+      icon: Heart,
+      title: "الأذكار والأدعية",
+      description: "أذكار الصباح والمساء والنوم والأكل والدخول والخروج وبعد الصلاة — كلها من حصن المسلم.",
+      bullets: [
+        "كل ذكر له عداد اهتزاز مع كل ضغطة",
+        "تيك أخضر ينزل للأسفل لما تكمّل الذكر",
+        "تأكيد قبل التصفير — علشان ميجيش خطأ عمره",
+      ],
+    },
+    {
+      icon: Circle,
+      title: "السبحة الذكية",
+      description: "سبحة ٣٣ حبة دائرية بتدور وبتضيء مع كل ضغطة، وفي المنتصف عداد الجولات بالذهبي.",
+      bullets: [
+        "إحصائيات تفصيلية: كل نوع تسبيح عملته",
+        "تأكيد قبل التصفير — عشان ماتروحش ألف تسبيحة بالغلط",
+        "هدف يومي: ٥٠٠ تسبيحة ضمن المتتبع اليومي",
+      ],
+    },
+    {
+      icon: Scroll,
+      title: "الأحاديث الشريفة",
+      description: "+٣٤,٠٠٠ حديث من الكتب الستة كاملةً — بدون نت.",
+      bullets: [
+        "صحيح البخاري ٧٥٨٠ • صحيح مسلم ٧٣٦٠",
+        "الترمذي ٣٩٢٤ • أبو داود ٥٢٧٢ • ابن ماجه ٤٣٣٨ • النسائي ٥٦٧٩",
+        "بحث بالكلمات ونسخ الحديث الكامل",
+      ],
+    },
+    {
+      icon: Landmark,
+      title: "التاريخ الإسلامي",
+      description: "+٤٩٧٥ حدث تاريخي بتفصيلة كاملة وورقة قابلة للفتح.",
+      bullets: [
+        "السيرة النبوية ١٤٢ • الخلفاء الراشدون ١١٨ • الأموية ٢١٧",
+        "العباسية ١٩٣٢ • الأيوبية ٢٠٧ • المماليك ٨٧٠ • العثمانية ١٤٨٩",
+      ],
+    },
+    {
+      icon: Users,
+      title: "قصص الأنبياء",
+      description: "كل نبي بقصته كاملة مقسّمة لأحداث، وعدد مرات ذكره في القرآن.",
+      bullets: [
+        "قصص مفصّلة لكل نبي من آدم حتى محمد ﷺ",
+        "في كل صفحة آية قرآنية: ﴿لَقَدْ كَانَ فِي قَصَصِهِمْ عِبْرَةٌ﴾",
+      ],
+    },
+    {
+      icon: GraduationCap,
+      title: "الاختبارات الإسلامية",
+      description: "٥٨٢٠ سؤال في القرآن والحديث والفقه والتاريخ — الأسئلة تتخلط عشوائياً كل مرة.",
+      bullets: [
+        "٣ مستويات صعوبة مختلفة",
+        "اختبار الحفظ: اختيار من متعدد أو الكلمة الناقصة",
+        "النتيجة محفوظة لكل سورة على حدة",
+      ],
+    },
+    {
+      icon: BookMarked,
+      title: "القراءة السريعة",
+      description: "تعرض الآيات كلمة كلمة بسرعة تحددها أنت، مع حساب الوقت المتبقي لإتمام السورة.",
+      bullets: [
+        "تحكم كامل: تشغيل / إيقاف / كلمة سابقة / كلمة تالية / أول / آخر",
+        "Bookmark لحفظ مكانك في أي لحظة",
+      ],
+    },
+    {
+      icon: Compass,
+      title: "بوصلة القبلة",
+      description: "بوصلة Premium بـ٧٢ علامة درجة — تضيء وتهتز لما تمسك الاتجاه الصح بالضبط.",
+      bullets: [
+        "دقة عالية مع مؤشر اهتزازي عند تحديد الاتجاه",
+      ],
+    },
+    {
+      icon: Radio,
+      title: "إذاعة القرآن",
+      description: "إذاعة القرآن الكريم من القاهرة بواجهة راديو خشبي كلاسيكي أنيق.",
+      bullets: [
+        "خلفية خشب حقيقية مع دوائر عقد خشبية",
+        "شريط تردد VFD phosphor أخضر كلاسيكي",
+        "عدة محطات إسلامية متاحة",
+      ],
+    },
+    {
+      icon: Tv,
+      title: "القنوات الإسلامية",
+      description: "قناة القرآن الكريم + قناة السنة النبوية بث مباشر.",
+      bullets: [
+        "مشاهدة مباشرة داخل التطبيق بدون إعلانات",
+      ],
+    },
+    {
+      icon: Hash,
+      title: "أسماء الله الحسنى",
+      description: "٩٩ اسماً في شبكة ذهبية — رقم كل اسم في دائرة مع المعنى.",
+      bullets: [
+        "بحث يعمل بالعربي أو الإنجليزي",
+      ],
+    },
+    {
+      icon: BookMarked,
+      title: "سنن النبي ﷺ",
+      description: "٥ أقسام: عام ✦ مسجد ✦ أذكار ✦ نوم ✦ سفر — كل سنة بالحديث ومصدره والأجر.",
+      bullets: [
+        "البطاقة قابلة للتوسعة — اضغط تتفتح، اضغط تتقفل",
+      ],
+    },
+    {
+      icon: Users,
+      title: "دليل القراء العالميين",
+      description: "٣ مراحل: قائمة → سور → مشغّل مدمج — مع تشغيل متتالي للسور.",
+      bullets: [
+        "قلب ❤️ لحفظ القارئ في المفضلة",
+        "ربط سورة بعينها بقارئ بعينه — يس بصوت الحصري دائماً!",
+        "مشاركة مباشرة لأي تلاوة",
+      ],
+    },
+    {
+      icon: Moon,
+      title: "إحصائياتك الحياتية",
+      description: "٤ أرقام تتابعها التطبيق: إجمالي التسبيحات، ختمات القرآن، أيام الأذكار المتواصلة، وأيام التدبر.",
+      bullets: [
+        "خريطة حرارية بـ٩١ يوم زي GitHub بالضبط 📊",
+        "ضغطة واحدة ← عرض كل الأيام منذ أول استخدام",
+        "الألوان تتدرج من الفاتح (قليل) للذهبي الغامق (مكتمل)",
+      ],
+    },
   ];
 
   return (
@@ -696,13 +844,18 @@ export default function Landing() {
           {/* Stats */}
           <div className="flex flex-wrap gap-6 justify-center">
             <div className="text-center">
-              <div className="text-2xl font-black text-primary">+50</div>
-              <div className="text-xs text-muted-foreground">قارئاً للقرآن</div>
+              <div className="text-2xl font-black text-primary">+34,000</div>
+              <div className="text-xs text-muted-foreground">حديث نبوي شريف</div>
             </div>
             <div className="w-px bg-border" />
             <div className="text-center">
-              <div className="text-2xl font-black text-primary">99</div>
-              <div className="text-xs text-muted-foreground">اسم من أسماء الله</div>
+              <div className="text-2xl font-black text-primary">+4,975</div>
+              <div className="text-xs text-muted-foreground">حدث تاريخي إسلامي</div>
+            </div>
+            <div className="w-px bg-border" />
+            <div className="text-center">
+              <div className="text-2xl font-black text-primary">٣٠ MB</div>
+              <div className="text-xs text-muted-foreground">فقط حجم التطبيق</div>
             </div>
             <div className="w-px bg-border" />
             <div className="text-center">
@@ -732,12 +885,12 @@ export default function Landing() {
               كل ما يحتاجه المسلم
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              مجموعة شاملة من الأدوات الإسلامية المصممة لتكون رفيقك اليومي في طريق الاستقامة
+              مسجد وراديو وتليفزيون في الجيب — كل ده مساحته ٣٠ ميجا بس 🤍
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f) => (
-              <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} />
+              <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} bullets={f.bullets} />
             ))}
           </div>
         </div>
