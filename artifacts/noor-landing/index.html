@@ -1,16 +1,213 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- ═══ Primary SEO ═══ -->
+    <title>تطبيق نور - رفيقك الإسلامي الشامل | قرآن، صلاة، أذكار مجاناً</title>
+    <meta name="title" content="تطبيق نور - رفيقك الإسلامي الشامل | قرآن، صلاة، أذكار مجاناً" />
+    <meta name="description" content="تطبيق نور الإسلامي المجاني للأندرويد — قرآن كريم مع 24 قارئاً، مواقيت صلاة، أذكار، +34,000 حديث نبوي من الكتب الستة، التاريخ الإسلامي، قصص الأنبياء، بوصلة القبلة، سبحة ذكية. بدون إعلانات، بدون إنترنت، 30MB فقط." />
+    <meta name="keywords" content="تطبيق نور, تطبيق إسلامي, قرآن كريم, مواقيت صلاة, أذكار, أدعية, حديث نبوي, تاريخ إسلامي, قصص أنبياء, قبلة, سبحة, إسلام, مسلم, أندرويد, APK, مجاني, بدون إعلانات, Noor app" />
+    <meta name="author" content="Seif Kamel" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
     <meta name="google" content="notranslate" />
+    <link rel="canonical" href="https://noor-10.vercel.app/" />
+    <link rel="alternate" hreflang="ar" href="https://noor-10.vercel.app/" />
+
+    <!-- ═══ Google Site Verification ═══ -->
     <meta name="google-site-verification" content="google93be6fba6634c2b7" />
     <meta name="google-site-verification" content="ehCOyrHPV5XvO4uimfTa7uJq16XfVASv2kp8MC-m26A" />
-    <title>تطبيق نور - رفيقك الإسلامي الشامل</title>
+
+    <!-- ═══ Open Graph (Facebook / WhatsApp / LinkedIn) ═══ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://noor-10.vercel.app/" />
+    <meta property="og:title" content="تطبيق نور - رفيقك الإسلامي الشامل" />
+    <meta property="og:description" content="تطبيق إسلامي مجاني للأندرويد — قرآن، صلاة، أذكار، +34,000 حديث. بدون إعلانات، بدون إنترنت، 30MB فقط." />
+    <meta property="og:image" content="https://noor-10.vercel.app/opengraph.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="تطبيق نور الإسلامي - قرآن وصلاة وأذكار" />
+    <meta property="og:locale" content="ar_AR" />
+    <meta property="og:site_name" content="تطبيق نور" />
+
+    <!-- ═══ Twitter / X Card ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://noor-10.vercel.app/" />
+    <meta name="twitter:title" content="تطبيق نور - رفيقك الإسلامي الشامل" />
+    <meta name="twitter:description" content="تطبيق إسلامي مجاني — قرآن، صلاة، أذكار، +34,000 حديث. بدون إعلانات، بدون إنترنت، 30MB." />
+    <meta name="twitter:image" content="https://noor-10.vercel.app/opengraph.jpg" />
+    <meta name="twitter:image:alt" content="تطبيق نور الإسلامي" />
+
+    <!-- ═══ Mobile / PWA ═══ -->
+    <meta name="theme-color" content="#8B5A2B" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="تطبيق نور" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="تطبيق نور" />
+    <meta name="msapplication-TileColor" content="#8B5A2B" />
+    <meta name="msapplication-TileImage" content="/noor-logo.png" />
+
+    <!-- ═══ Icons & Manifest ═══ -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="512x512" href="/noor-logo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <!-- ═══ Fonts — Cairo (used in app) + Inter ═══ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- ═══ JSON-LD Structured Data ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://noor-10.vercel.app/#website",
+          "url": "https://noor-10.vercel.app/",
+          "name": "تطبيق نور",
+          "description": "تطبيق إسلامي شامل ومجاني للأندرويد",
+          "inLanguage": "ar",
+          "publisher": { "@id": "https://noor-10.vercel.app/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://noor-10.vercel.app/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://noor-10.vercel.app/#organization",
+          "name": "تطبيق نور",
+          "url": "https://noor-10.vercel.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://noor-10.vercel.app/noor-logo.png",
+            "width": 512,
+            "height": 512
+          },
+          "founder": { "@type": "Person", "name": "Seif Kamel" },
+          "sameAs": []
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://noor-10.vercel.app/#app",
+          "name": "تطبيق نور",
+          "alternateName": ["Noor Islamic App", "نور"],
+          "description": "تطبيق إسلامي شامل يضم القرآن الكريم مع 24 قارئاً، مواقيت الصلاة، الأذكار، +34,000 حديث نبوي من الكتب الستة، +4,975 حدث في التاريخ الإسلامي، قصص الأنبياء، بوصلة القبلة، السبحة الذكية، اختبارات إسلامية — مجاناً وبدون إعلانات وبدون إنترنت وبحجم 30 ميجابايت فقط.",
+          "url": "https://noor-10.vercel.app/",
+          "downloadUrl": "https://noor-10.vercel.app/noor-app.apk",
+          "operatingSystem": "Android 5.0+",
+          "applicationCategory": "LifestyleApplication",
+          "applicationSubCategory": "Religion & Spirituality",
+          "inLanguage": "ar",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          "author": { "@type": "Person", "name": "Seif Kamel" },
+          "publisher": { "@id": "https://noor-10.vercel.app/#organization" },
+          "featureList": [
+            "القرآن الكريم مع 24 قارئاً وتفسير الميسر",
+            "مواقيت الصلاة مع إشعارات متعددة وحارس الصلاة",
+            "أذكار الصباح والمساء والنوم من حصن المسلم",
+            "السبحة الذكية مع إحصائيات تفصيلية",
+            "+34,000 حديث نبوي من الكتب الستة كاملة بدون إنترنت",
+            "+4,975 حدث في التاريخ الإسلامي من السيرة حتى العثمانية",
+            "قصص الأنبياء من آدم حتى محمد ﷺ",
+            "5,820 سؤال في الاختبارات الإسلامية",
+            "بوصلة القبلة مع 72 علامة واهتزاز",
+            "إذاعة القرآن الكريم بواجهة راديو خشبي",
+            "أسماء الله الحسنى الـ 99",
+            "سنن النبي ﷺ في 5 أقسام",
+            "يعمل بالكامل بدون إنترنت",
+            "بدون إعلانات نهائياً",
+            "30 ميجابايت فقط"
+          ],
+          "screenshot": [
+            "https://noor-10.vercel.app/screenshots/page-01.jpg",
+            "https://noor-10.vercel.app/screenshots/page-02.jpg",
+            "https://noor-10.vercel.app/screenshots/page-03.jpg"
+          ],
+          "softwareVersion": "1.0",
+          "datePublished": "2024-01-01",
+          "dateModified": "2026-07-07"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://noor-10.vercel.app/#webpage",
+          "url": "https://noor-10.vercel.app/",
+          "name": "تطبيق نور - رفيقك الإسلامي الشامل | قرآن، صلاة، أذكار مجاناً",
+          "description": "حمّل تطبيق نور الإسلامي المجاني للأندرويد — قرآن كريم، مواقيت صلاة، أذكار، وأكثر من 34 ألف حديث نبوي. بدون إعلانات، بدون إنترنت.",
+          "isPartOf": { "@id": "https://noor-10.vercel.app/#website" },
+          "about": { "@id": "https://noor-10.vercel.app/#app" },
+          "inLanguage": "ar",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+              "@type": "ListItem",
+              "position": 1,
+              "name": "الرئيسية",
+              "item": "https://noor-10.vercel.app/"
+            }]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "هل تطبيق نور مجاني؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "نعم، تطبيق نور مجاني بالكامل وللأبد — بدون إعلانات، بدون اشتراكات، بدون أي مدفوعات."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "هل يعمل تطبيق نور بدون إنترنت؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "نعم، يعمل تطبيق نور بالكامل بدون إنترنت. جميع البيانات مخزنة محلياً على جهازك، بما في ذلك القرآن الكريم و34,000+ حديث نبوي والتاريخ الإسلامي."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ما حجم تطبيق نور؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "حجم تطبيق نور 30 ميجابايت فقط رغم احتوائه على قاعدة بيانات ضخمة تشمل +34,000 حديث نبوي و+4,975 حدث تاريخي."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ما أبرز مميزات تطبيق نور؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "يضم تطبيق نور: القرآن الكريم مع 24 قارئاً، مواقيت الصلاة مع إشعارات، الأذكار والأدعية، السبحة الذكية، +34,000 حديث نبوي من الكتب الستة، +4,975 حدث تاريخي إسلامي، قصص الأنبياء، 5,820 سؤال اختبار، بوصلة القبلة، وإذاعة القرآن الكريم."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "على أي أجهزة يعمل تطبيق نور؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "تطبيق نور متاح حالياً لأجهزة الأندرويد (Android 5.0 وما فوق) ويمكن تحميله مباشرة من الموقع بصيغة APK."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

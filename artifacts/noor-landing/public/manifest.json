@@ -1,0 +1,60 @@
+{
+  "name": "تطبيق نور - رفيقك الإسلامي الشامل",
+  "short_name": "تطبيق نور",
+  "description": "تطبيق إسلامي شامل ومجاني — قرآن، صلاة، أذكار، أحاديث، تاريخ إسلامي. بدون إعلانات، بدون إنترنت، 30MB.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8EB",
+  "theme_color": "#8B5A2B",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["religion", "lifestyle", "education"],
+  "icons": [
+    {
+      "src": "/noor-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/noor-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/page-01.jpg",
+      "sizes": "1080x2400",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "الشاشة الرئيسية"
+    },
+    {
+      "src": "/screenshots/page-02.jpg",
+      "sizes": "1080x2400",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "المتتبع اليومي"
+    },
+    {
+      "src": "/screenshots/page-03.jpg",
+      "sizes": "1080x2400",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "القرآن الكريم"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "تحميل التطبيق",
+      "short_name": "تحميل",
+      "description": "تحميل تطبيق نور للأندرويد",
+      "url": "/noor-app.apk",
+      "icons": [{ "src": "/noor-logo.png", "sizes": "512x512" }]
+    }
+  ]
+}

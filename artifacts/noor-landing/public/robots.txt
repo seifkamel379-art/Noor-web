@@ -1,4 +1,39 @@
+# تطبيق نور — Noor Islamic App
+# https://noor-10.vercel.app
+
+# Allow all search engine crawlers
 User-agent: *
 Allow: /
 
-Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
+# Allow AI crawlers explicitly
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Disallow admin routes from indexing
+User-agent: *
+Disallow: /admin
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://noor-10.vercel.app/sitemap.xml
+
+# LLMs.txt for AI discoverability
+# https://noor-10.vercel.app/llms.txt
