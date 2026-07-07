@@ -1,6 +1,6 @@
 {
-  "buildCommand": "pnpm install && pnpm --filter @workspace/noor-landing run build",
-  "outputDirectory": "artifacts/noor-landing/dist",
+  "buildCommand": "pnpm install && pnpm --filter @workspace/noor-landing run build && cp -r artifacts/noor-landing/dist ./dist",
+  "outputDirectory": "dist",
   "installCommand": "pnpm install",
   "framework": null,
   "rewrites": [
