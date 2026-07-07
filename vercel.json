@@ -2,6 +2,7 @@
   "buildCommand": "pnpm install && pnpm --filter @workspace/noor-landing run build",
   "outputDirectory": "artifacts/noor-landing/dist",
   "installCommand": "pnpm install",
+  "framework": null,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
